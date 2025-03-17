@@ -41,6 +41,7 @@ public class Menu {
                     break;
 
                 case 2:
+                    gestionAsignaturas.bajaAsignatura();
                     break;
 
                 case 3:
