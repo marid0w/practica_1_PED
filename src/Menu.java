@@ -37,7 +37,7 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
-                    GestionAsignaturas.altaAsignatura();
+                    gestionAsignaturas.altaAsignatura();
                     break;
 
                 case 2:
