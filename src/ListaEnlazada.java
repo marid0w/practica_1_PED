@@ -4,6 +4,7 @@ public class ListaEnlazada<T> {
 
     // El constructor inicializa la cabeza a null, indicando una lista vacía
     public ListaEnlazada() {
+
         this.cabeza = null;
     }
 
@@ -55,4 +56,6 @@ public class ListaEnlazada<T> {
 
         return true;
     }
+
+
 }

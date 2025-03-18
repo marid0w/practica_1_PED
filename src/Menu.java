@@ -4,10 +4,12 @@ public class Menu {
 
     private Scanner scanner;
     private GestionAsignaturas gestionAsignaturas;
+    private Asignatura asignatura;
 
     public Menu() {
         scanner = new Scanner(System.in);
         gestionAsignaturas = new GestionAsignaturas();
+        asignatura = new Asignatura("nombre", "codigo", "profesor");
     }
 
     public void mostrarMenu() {
@@ -48,9 +50,11 @@ public class Menu {
                     break;
 
                 case 4:
+                    asignatura.agregarTareasAsignatura();
                     break;
 
                 case 5:
+                    gestionAsignaturas.listarAsignaturasPorCodigoAscendente();
                     break;
 
                 case 6:

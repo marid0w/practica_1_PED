@@ -1,9 +1,3 @@
-Código: ped34, Nombre: ped, Profesor: lara
-Código: ig34, Nombre: ingles, Profesor: lucia
-Código: mat45, Nombre: mates, Profesor: paco
-Código: quimica, Nombre: quim2025, Profesor: Natalia Sanz
-Código: quimica, Nombre: quim2025, Profesor: Natalia Sanz
-Código: LEG34, Nombre: lengua, Profesor: lucia
-Código: LEG34, Nombre: Lengua, Profesor: lucia
-Código: LEG34, Nombre: Lengua, Profesor: lucia
-Código: mat2025, Nombre: mates, Profesor: juan
+Asignatura: mates, Código: 100
+Asignatura: ingles, Código: 200
+Asignatura: lengu, Código: 56
