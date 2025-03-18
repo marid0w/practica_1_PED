@@ -11,15 +11,16 @@ public class NodoLEG<T> {
         return dato;
     }
 
-/*    public void setDato(T dato) {
+    public void setDato(T dato) {
         this.dato = dato;
     }
-*/
+
     public NodoLEG<T> getSiguiente() {
         return siguiente;
     }
 
     public void setSiguiente(NodoLEG<T> siguiente) {
+
         this.siguiente = siguiente;
     }
 }

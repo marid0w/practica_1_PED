@@ -31,7 +31,6 @@ public class GestionAsignaturas {
 
                                 Asignatura asignatura = new Asignatura(nombre, codigo, profesor);
                                 asignaturas.agregar(asignatura);
-                                guardarAsignaturasEnFichero();
                                 System.out.println("Asignatura añadida correctamente.");
                         }
 
@@ -62,24 +61,9 @@ public class GestionAsignaturas {
         }
 
 
-
-        public void guardarAsignaturasEnFichero() {
-                String nombreFichero = "asignaturas.txt"; // Nombre fijo del fichero
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreFichero, true))) { // Append mode
-                        NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
-                        while (nodo != null) {
-                                // Escribir la asignatura en el fichero
-                                writer.write(nodo.getDato().toString());
-                                writer.newLine(); // Nueva línea para la siguiente asignatura
-                                nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
-                        }
-                        System.out.println("Asignaturas guardadas en el fichero: " + nombreFichero);
-                } catch (IOException e) {
-                        System.err.println("Error al escribir en el fichero: " + e.getMessage());
-                }
-        }
         public void bajaAsignatura() {
                 boolean continuar = true;
+                mostrarListaAsignaturas();
 
                 while (continuar) {
                         System.out.println("Introduce el código de la asignatura a dar de baja: ");
@@ -113,6 +97,7 @@ public class GestionAsignaturas {
                                 continuar = false;
                         }
                 }
+                mostrarListaAsignaturas();
         }
 
         public void mostrarListaAsignaturas() {
@@ -126,6 +111,60 @@ public class GestionAsignaturas {
 
         public  void  modificacionAsignaturas(){
 
+
         }
+
+        public void listarAsignaturasPorCodigoAscendente() {
+                // Paso 1: Ordenar la lista de asignaturas por código (ascendente)
+                ordenarListaPorCodigo();
+
+                // Paso 2: Mostrar las asignaturas ordenadas
+                System.out.println("| LISTADO GENERAL DE ASIGNATURAS (Ascendente) |");
+                System.out.println("|--------------------------------------------|");
+                System.out.println("| Código   | Asignatura          | Profesor/a |");
+                System.out.println("|--------------------------------------------|");
+
+                NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
+                while (nodo != null) {
+                        Asignatura asignatura = nodo.getDato();
+                        System.out.printf("| %-8s | %-18s | %-10s |\n",
+                                asignatura.getCodigo(),
+                                asignatura.getNombre(),
+                                asignatura.getProfesor());
+                        nodo = nodo.getSiguiente();
+                }
+
+                System.out.println("|--------------------------------------------|");
+                System.out.println("...... Pulse <Intro> para continuar…");
+                scanner.nextLine(); // Esperar a que el usuario pulse Intro
+        }
+
+        private void ordenarListaPorCodigo() {
+                NodoLEG<Asignatura> actual = asignaturas.getCabeza();
+
+                while (actual != null) {
+                        NodoLEG<Asignatura> minimo = actual;
+                        NodoLEG<Asignatura> siguiente = actual.getSiguiente();
+
+                        // Encontrar el nodo con el código mínimo en la sublista restante
+                        while (siguiente != null) {
+                                if (siguiente.getDato().getCodigo().compareTo(minimo.getDato().getCodigo()) < 0) {
+                                        minimo = siguiente;
+                                }
+                                siguiente = siguiente.getSiguiente();
+                        }
+
+                        // Intercambiar los datos del nodo actual con el nodo mínimo
+                        if (minimo != actual) {
+                                Asignatura temp = actual.getDato();
+                                actual.setDato(minimo.getDato());
+                                minimo.setDato(temp);
+                        }
+
+                        actual = actual.getSiguiente();
+                }
+        }
+
+
 
 }
