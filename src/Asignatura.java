@@ -22,7 +22,6 @@ public class Asignatura {
 
 
     public String getCodigo() {
-
         return codigo;
     }
 
@@ -31,8 +30,15 @@ public class Asignatura {
     }
 
     public String getProfesor() {
-
         return profesor;
+    }
+
+    public void setNombre(String nuevoNombre) {
+        this.nombre = nuevoNombre;
+    }
+
+    public void setProfesor(String nuevoProfesor) {
+        this.profesor = nuevoProfesor;
     }
 
     public ListaEnlazada<Tarea> getTareas() {
@@ -123,12 +129,5 @@ public class Asignatura {
             }
         }
     }
-
-
-
-
-
-
-
 
 }

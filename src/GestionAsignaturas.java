@@ -16,7 +16,7 @@ public class GestionAsignaturas {
                 boolean continuar = true;
 
                 while (continuar) {
-                        System.out.println("Introduce el código de la asignatura: ");
+                        System.out.println("Introduce el código de la asignatura(Ej.: MAT_0001): ");
                         String codigo = scanner.nextLine();
 
                         // Verificar si el código ya existe en la lista
@@ -109,10 +109,51 @@ public class GestionAsignaturas {
         }
 
 
-        public  void  modificacionAsignaturas(){
+public void modificacionAsignaturas() {
+    boolean continuar = true;
+    mostrarListaAsignaturas();
 
+    while (continuar) {
+        System.out.println("Introduce el código de la asignatura a modificar: ");
+        String codigo = scanner.nextLine();
 
+        Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
+
+        if (asignatura == null) {
+            System.out.println("Error: este código no está registrado en la aplicación.");
+        } else {
+            // Mostrar los datos de la asignatura
+            System.out.println("Asignatura encontrada:");
+            System.out.println(asignatura);
+
+            // Confirmación del usuario
+            System.out.println("¿Desea realmente modificar los datos de esta asignatura? (S/N)");
+            String respuesta = scanner.nextLine().trim().toUpperCase();
+
+            if (respuesta.equals("S")) {
+                // Solicitar nuevos datos
+                System.out.println("Introduce el nuevo nombre de la asignatura: ");
+                String nuevoNombre = scanner.nextLine();
+                System.out.println("Introduce el nuevo profesor de la asignatura: ");
+                String nuevoProfesor = scanner.nextLine();
+
+                // Actualizar los datos de la asignatura
+                asignatura.setNombre(nuevoNombre);
+                asignatura.setProfesor(nuevoProfesor);
+                System.out.println("Asignatura modificada correctamente.");
+            } else {
+                System.out.println("Proceso de modificación abortado.");
+            }
         }
+
+        // Preguntar si desea modificar otra asignatura
+        System.out.println("¿Desea modificar otra asignatura? (S/N)");
+        String respuestaContinuar = scanner.nextLine().trim().toUpperCase();
+        if (!respuestaContinuar.equals("S")) {
+            continuar = false;
+        }
+    }
+}
 
         public void listarAsignaturasPorCodigoAscendente() {
                 // Paso 1: Ordenar la lista de asignaturas por código (ascendente)

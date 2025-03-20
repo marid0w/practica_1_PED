@@ -32,9 +32,9 @@ public class ListaEnlazada<T> {
     }
 
     public boolean eliminar(T dato) {
-        if (dato == null) return false; // Dato inválido
+        if (dato == null) return false;
 
-        if (cabeza == null) return false; // La lista está vacía
+        if (cabeza == null) return false;
 
         NodoLEG<T> actual = cabeza, anterior = null;
 
@@ -44,7 +44,7 @@ public class ListaEnlazada<T> {
             actual = actual.getSiguiente();
         }
 
-        if (actual == null) return false; // Dato no encontrado
+        if (actual == null) return false;
 
         if (anterior == null) {
             // Eliminar la cabeza de la lista
