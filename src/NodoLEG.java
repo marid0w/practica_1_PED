@@ -22,6 +22,7 @@ public class NodoLEG<T> implements Serializable {
     }
 
     public void setSiguiente(NodoLEG<T> siguiente) {
+
         this.siguiente = siguiente;
     }
 }

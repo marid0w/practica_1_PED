@@ -4,6 +4,7 @@ public class ListaEnlazada<T> implements Serializable {
     private NodoLEG<T> cabeza;
 
     public ListaEnlazada() {
+
         this.cabeza = null;
     }
 
@@ -45,4 +46,6 @@ public class ListaEnlazada<T> implements Serializable {
 
         return true;
     }
+
+
 }
