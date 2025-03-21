@@ -4,17 +4,17 @@ import java.util.Scanner;
 public class GestionAsignaturas {
         private ListaEnlazada<Asignatura> asignaturas;
         private Scanner scanner;
-        private static final String fichAsignaturas = "asignaturas.dat";
-        private static final String fichTareas = "tareas.dat";
+
 
         public GestionAsignaturas() {
                 this.asignaturas = new ListaEnlazada<>();
                 this.scanner = new Scanner(System.in);
-                cargarAsignaturas(fichAsignaturas);
-                cargarTareas(fichTareas);
+                cargarAsignaturas();
+                cargarTareas();
         }
 
-        public void guardarAsignaturas(String filePath) {
+        public void guardarAsignaturas() {
+                String filePath = "asignaturas.dat"; // Ruta fija del fichero
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
                         oos.writeObject(asignaturas);
                         System.out.println("Asignaturas guardadas correctamente.");
@@ -23,7 +23,8 @@ public class GestionAsignaturas {
                 }
         }
 
-        public void cargarAsignaturas(String filePath) {
+        public void cargarAsignaturas() {
+                String filePath = "asignaturas.dat"; // Ruta fija del fichero
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
                         asignaturas = (ListaEnlazada<Asignatura>) ois.readObject();
                         System.out.println("Asignaturas cargadas correctamente.");
@@ -32,7 +33,8 @@ public class GestionAsignaturas {
                 }
         }
 
-        public void guardarTareas(String filePath) {
+        public void guardarTareas() {
+                String filePath = "tareas.dat"; // Ruta fija del fichero
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
                         for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
                                 oos.writeObject(nodo.getDato().getTareas());
@@ -43,7 +45,8 @@ public class GestionAsignaturas {
                 }
         }
 
-        public void cargarTareas(String filePath) {
+        public void cargarTareas() {
+                String filePath = "tareas.dat"; // Ruta fija del fichero
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
                         for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
                                 nodo.getDato().setTareas((ListaEnlazada<Tarea>) ois.readObject());
