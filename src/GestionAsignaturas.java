@@ -4,11 +4,14 @@ import java.util.Scanner;
 public class GestionAsignaturas {
         private ListaEnlazada<Asignatura> asignaturas;
         private Scanner scanner;
+        private LEGOrdenada<Asignatura> asignaturasOrdenadasAscendente;
 
 
         public GestionAsignaturas() {
                 this.asignaturas = new ListaEnlazada<>();
                 this.scanner = new Scanner(System.in);
+                this.asignaturasOrdenadasAscendente = new LEGOrdenada<>();
+
                 cargarAsignaturas();
                 cargarTareas();
         }
@@ -230,11 +233,39 @@ public class GestionAsignaturas {
                 }
         }
 
+
+
+
+        public void ordenarListaPorCodigo() {
+                if (asignaturas.getCabeza() == null) return;
+
+                boolean swapped;
+                do {
+                        swapped = false;
+                        NodoLEG<Asignatura> current = asignaturas.getCabeza();
+
+                        while (current != null && current.getSiguiente() != null) {
+                                NodoLEG<Asignatura> next = current.getSiguiente();
+
+
+                                if (Integer.parseInt(current.getDato().getCodigo()) > Integer.parseInt(next.getDato().getCodigo())) {
+
+                                        Asignatura temp = current.getDato();
+                                        current.setDato(next.getDato());
+                                        next.setDato(temp);
+                                        swapped = true;
+                                }
+
+                                current = next;
+                        }
+                } while (swapped);
+        }
+
         public void listarAsignaturasPorCodigoAscendente() {
-                // Paso 1: Ordenar la lista de asignaturas por código (ascendente)
+
                 ordenarListaPorCodigo();
 
-                // Paso 2: Mostrar las asignaturas ordenadas
+
                 System.out.println("| LISTADO GENERAL DE ASIGNATURAS (Ascendente) |");
                 System.out.println("|--------------------------------------------|");
                 System.out.println("| Código   | Asignatura          | Profesor/a |");
@@ -251,33 +282,9 @@ public class GestionAsignaturas {
                 }
 
                 System.out.println("|--------------------------------------------|");
-                System.out.println("...... Pulse <Intro> para continuar…");
-                scanner.nextLine(); // Esperar a que el usuario pulse Intro
+                System.out.println("...... Pulse <Intro> para continuar...");
+                scanner.nextLine();
         }
 
-        private void ordenarListaPorCodigo() {
-                NodoLEG<Asignatura> actual = asignaturas.getCabeza();
 
-                while (actual != null) {
-                        NodoLEG<Asignatura> minimo = actual;
-                        NodoLEG<Asignatura> siguiente = actual.getSiguiente();
-
-                        // Encontrar el nodo con el código mínimo en la sublista restante
-                        while (siguiente != null) {
-                                if (siguiente.getDato().getCodigo().compareTo(minimo.getDato().getCodigo()) < 0) {
-                                        minimo = siguiente;
-                                }
-                                siguiente = siguiente.getSiguiente();
-                        }
-
-                        // Intercambiar los datos del nodo actual con el nodo mínimo
-                        if (minimo != actual) {
-                                Asignatura temp = actual.getDato();
-                                actual.setDato(minimo.getDato());
-                                minimo.setDato(temp);
-                        }
-
-                        actual = actual.getSiguiente();
-                }
-        }
 }

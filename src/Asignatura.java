@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class Asignatura implements Serializable {
+public class Asignatura implements Serializable , Comparable<Asignatura> {
     private static final long serialVersionUID = 1L;
     private String nombre;
     private String codigo;
@@ -129,5 +129,10 @@ public class Asignatura implements Serializable {
                 continuar = false;
             }
         }
+    }
+
+    @Override
+    public int compareTo(Asignatura asignatura) {
+        return this.codigo.compareTo(asignatura.getCodigo());
     }
 }
