@@ -1,3 +1,0 @@
-Asignatura: mates, Código: 100
-Asignatura: ingles, Código: 200
-Asignatura: leg, Código: 56
