@@ -61,7 +61,7 @@ public class Menu {
                 case 6:gestionAsignaturas.listarAsignaturasPorCodigoDescendente();
                     break;
 
-                case 7:
+                case 7:gestionAsignaturas.listarDatosCompletosAsignatura();
                     break;
 
                 case 8:

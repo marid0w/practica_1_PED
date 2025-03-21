@@ -334,5 +334,36 @@ public class GestionAsignaturas {
                 scanner.nextLine();
         }
 
+        public void listarDatosCompletosAsignatura() {
+                System.out.println("Introduce el código de la asignatura: ");
+                String codigo = scanner.nextLine();
+
+                // Buscar la asignatura por código
+                Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
+
+                if (asignatura == null) {
+                        System.out.println("Error: este código no está registrado en la aplicación.");
+                } else {
+                        // Mostrar los datos de la asignatura
+                        System.out.println("\n**ASIGNATURA:** " + asignatura.getNombre());
+                        System.out.println("Código: " + asignatura.getCodigo());
+                        System.out.println("Profesor: " + asignatura.getProfesor());
+
+                        // Mostrar las tareas de la asignatura
+                        System.out.println("\nTareas\t\tPuntuación");
+                        System.out.println("-----------------------------");
+
+                        NodoLEG<Tarea> nodoTarea = asignatura.getTareas().getCabeza();
+                        while (nodoTarea != null) {
+                                Tarea tarea = nodoTarea.getDato();
+                                System.out.println(tarea.getNombre() + "\t\t" + tarea.getPuntuacion());
+                                nodoTarea = nodoTarea.getSiguiente();
+                        }
+                }
+
+                System.out.println("\nPulse <Intro> para continuar...");
+                scanner.nextLine(); // Esperar a que el usuario pulse Intro
+        }
+
 
 }
