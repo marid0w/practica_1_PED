@@ -1,14 +1,15 @@
+import java.io.Serializable;
 import java.util.Scanner;
 
-
-public class Asignatura {
+public class Asignatura implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private String codigo;
     private String profesor;
     private ListaEnlazada<Tarea> tareas;
-    private Scanner scanner;
+    private transient Scanner scanner;
 
-    public Asignatura ( String nombre, String codigo, String profesor){
+    public Asignatura(String nombre, String codigo, String profesor) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.profesor = profesor;
@@ -16,10 +17,9 @@ public class Asignatura {
         this.scanner = new Scanner(System.in);
     }
 
-    public void  aniadirTarea(Tarea tarea){
+    public void aniadirTarea(Tarea tarea) {
         tareas.agregar(tarea);
     }
-
 
     public String getCodigo() {
         return codigo;
@@ -42,11 +42,12 @@ public class Asignatura {
     }
 
     public ListaEnlazada<Tarea> getTareas() {
-
         return tareas;
     }
 
-
+    public void setTareas(ListaEnlazada<Tarea> tareas) {
+        this.tareas = tareas;
+    }
 
     public void eliminarTarea(Tarea tarea) {
         tareas.eliminar(tarea);
@@ -68,23 +69,23 @@ public class Asignatura {
     }
 
     public boolean agregarTarea(Tarea tarea) {
-       if(tarea.getTipo().equals("Examen Final")){
-           NodoLEG<Tarea> nodo = tareas.getCabeza();
-           while (nodo != null) {
-               if(nodo.getDato().getTipo().equals("Examen Final")){
-                   System.out.println("Ya existe un examen final");
-                   return false;
-               }
-               nodo = nodo.getSiguiente();
-           }
-       }
-       if(obtenerSumaPuntuacionesTareas() + tarea.getPuntuacion() <= 10){
-         aniadirTarea(tarea);
-           return true;
-       } else {
-           System.out.println("No se puede agregar la tarea, la suma de las puntuaciones supera 10");
-              return false;
-       }
+        if (tarea.getTipo().equals("Examen Final")) {
+            NodoLEG<Tarea> nodo = tareas.getCabeza();
+            while (nodo != null) {
+                if (nodo.getDato().getTipo().equals("Examen Final")) {
+                    System.out.println("Ya existe un examen final");
+                    return false;
+                }
+                nodo = nodo.getSiguiente();
+            }
+        }
+        if (obtenerSumaPuntuacionesTareas() + tarea.getPuntuacion() <= 10) {
+            aniadirTarea(tarea);
+            return true;
+        } else {
+            System.out.println("No se puede agregar la tarea, la suma de las puntuaciones supera 10");
+            return false;
+        }
     }
 
     public void agregarTareasAsignatura() {
@@ -129,5 +130,4 @@ public class Asignatura {
             }
         }
     }
-
 }

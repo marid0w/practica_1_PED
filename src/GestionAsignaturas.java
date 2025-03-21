@@ -1,17 +1,58 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class GestionAsignaturas {
         private ListaEnlazada<Asignatura> asignaturas;
         private Scanner scanner;
+        private static final String fichAsignaturas = "asignaturas.dat";
+        private static final String fichTareas = "tareas.dat";
 
         public GestionAsignaturas() {
                 this.asignaturas = new ListaEnlazada<>();
                 this.scanner = new Scanner(System.in);
+                cargarAsignaturas(fichAsignaturas);
+                cargarTareas(fichTareas);
         }
 
+        public void guardarAsignaturas(String filePath) {
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+                        oos.writeObject(asignaturas);
+                        System.out.println("Asignaturas guardadas correctamente.");
+                } catch (IOException e) {
+                        System.err.println("Error al guardar las asignaturas: " + e.getMessage());
+                }
+        }
+
+        public void cargarAsignaturas(String filePath) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+                        asignaturas = (ListaEnlazada<Asignatura>) ois.readObject();
+                        System.out.println("Asignaturas cargadas correctamente.");
+                } catch (IOException | ClassNotFoundException e) {
+                        System.err.println("Error al cargar las asignaturas: " + e.getMessage());
+                }
+        }
+
+        public void guardarTareas(String filePath) {
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+                        for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
+                                oos.writeObject(nodo.getDato().getTareas());
+                        }
+                        System.out.println("Tareas guardadas correctamente.");
+                } catch (IOException e) {
+                        System.err.println("Error al guardar las tareas: " + e.getMessage());
+                }
+        }
+
+        public void cargarTareas(String filePath) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+                        for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
+                                nodo.getDato().setTareas((ListaEnlazada<Tarea>) ois.readObject());
+                        }
+                        System.out.println("Tareas cargadas correctamente.");
+                } catch (IOException | ClassNotFoundException e) {
+                        System.err.println("Error al cargar las tareas: " + e.getMessage());
+                }
+        }
         public void altaAsignatura() {
                 boolean continuar = true;
 
@@ -220,7 +261,4 @@ public class GestionAsignaturas {
                         actual = actual.getSiguiente();
                 }
         }
-
-
-
 }

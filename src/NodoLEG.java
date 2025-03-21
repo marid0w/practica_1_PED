@@ -1,4 +1,6 @@
-public class NodoLEG<T> {
+import java.io.Serializable;
+
+public class NodoLEG<T> implements Serializable {
     private T dato;
     private NodoLEG<T> siguiente;
 
@@ -20,7 +22,6 @@ public class NodoLEG<T> {
     }
 
     public void setSiguiente(NodoLEG<T> siguiente) {
-
         this.siguiente = siguiente;
     }
 }

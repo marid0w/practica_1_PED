@@ -1,10 +1,12 @@
+import java.io.Serializable;
 
-public class Tarea {
+public class Tarea implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private int puntuacion;
     private String tipo;
 
-    public Tarea (String nombre, int puntuacion, String tipo){
+    public Tarea(String nombre, int puntuacion, String tipo) {
         this.nombre = nombre;
         this.puntuacion = puntuacion;
         this.tipo = tipo;
