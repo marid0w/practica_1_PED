@@ -65,18 +65,23 @@ public class Menu {
                     break;
 
                 case 8:
+                    gestionAsignaturas.listarCompletoTareas();
                     break;
 
                 case 9:
+                    gestionAsignaturas.listarResumidoTareas();
                     break;
 
                 case 10:
+                    gestionAsignaturas.informePuntuacionesResumido();
                     break;
 
                 case 11:
+
                     break;
 
                 case 12:
+
                     break;
 
                 case 0:
