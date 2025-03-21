@@ -88,7 +88,7 @@ public class GestionAsignaturas {
                 boolean continuar = true;
 
                 while (continuar) {
-                        System.out.println("Introduce el código de la asignatura(Ej.: MAT_0001): ");
+                        System.out.println("Introduce el código de la asignatura (numero entero): ");
                         String codigo = scanner.nextLine();
 
                         // Verificar si el código ya existe en la lista
