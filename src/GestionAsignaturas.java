@@ -286,5 +286,53 @@ public class GestionAsignaturas {
                 scanner.nextLine();
         }
 
+        public void ordenarListaPorCodigoDescendente() {
+                if (asignaturas.getCabeza() == null) return;
+
+                boolean swapped;
+                do {
+                        swapped = false;
+                        NodoLEG<Asignatura> current = asignaturas.getCabeza();
+
+                        while (current != null && current.getSiguiente() != null) {
+                                NodoLEG<Asignatura> next = current.getSiguiente();
+
+
+                                if (Integer.parseInt(current.getDato().getCodigo()) < Integer.parseInt(next.getDato().getCodigo())) {
+
+                                        Asignatura temp = current.getDato();
+                                        current.setDato(next.getDato());
+                                        next.setDato(temp);
+                                        swapped = true;
+                                }
+
+                                current = next;
+                        }
+                } while (swapped);
+        }
+
+        public void listarAsignaturasPorCodigoDescendente() {
+                ordenarListaPorCodigoDescendente();
+
+                System.out.println("| LISTADO GENERAL DE ASIGNATURAS (Descendente) |");
+                System.out.println("|---------------------------------------------|");
+                System.out.println("| Código   | Asignatura          | Profesor/a |");
+                System.out.println("|---------------------------------------------|");
+
+                NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
+                while (nodo != null) {
+                        Asignatura asignatura = nodo.getDato();
+                        System.out.printf("| %-8s | %-18s | %-10s |\n",
+                                asignatura.getCodigo(),
+                                asignatura.getNombre(),
+                                asignatura.getProfesor());
+                        nodo = nodo.getSiguiente();
+                }
+
+                System.out.println("|---------------------------------------------|");
+                System.out.println("...... Pulse <Intro> para continuar...");
+                scanner.nextLine();
+        }
+
 
 }
