@@ -48,4 +48,9 @@ public class ListaEnlazada<T> implements Serializable {
     }
 
 
+    protected void setCabeza(NodoLEG<T> cabeza) {
+        this.cabeza = cabeza;
+    }
+
+
 }

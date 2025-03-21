@@ -58,10 +58,10 @@ public class Menu {
                     gestionAsignaturas.listarAsignaturasPorCodigoAscendente();
                     break;
 
-                case 6:
+                case 6:gestionAsignaturas.listarAsignaturasPorCodigoDescendente();
                     break;
 
-                case 7:
+                case 7:gestionAsignaturas.listarDatosCompletosAsignatura();
                     break;
 
                 case 8:
