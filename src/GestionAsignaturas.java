@@ -14,47 +14,74 @@ public class GestionAsignaturas {
         }
 
         public void guardarAsignaturas() {
-                String filePath = "asignaturas.dat"; // Ruta fija del fichero
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
-                        oos.writeObject(asignaturas);
-                        System.out.println("Asignaturas guardadas correctamente.");
-                } catch (IOException e) {
-                        System.err.println("Error al guardar las asignaturas: " + e.getMessage());
+            String nombreFichero = "asignaturas.dat"; // Nombre fijo del fichero
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))) {
+                NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
+                while (nodo != null) {
+                    oos.writeObject(nodo.getDato()); // Escribir la asignatura en el fichero
+                    nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
                 }
+                System.out.println("Asignaturas guardadas correctamente.");
+            } catch (IOException e) {
+                System.err.println("Error al guardar las asignaturas: " + e.getMessage());
+            }
         }
 
         public void cargarAsignaturas() {
-                String filePath = "asignaturas.dat"; // Ruta fija del fichero
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-                        asignaturas = (ListaEnlazada<Asignatura>) ois.readObject();
-                        System.out.println("Asignaturas cargadas correctamente.");
-                } catch (IOException | ClassNotFoundException e) {
-                        System.err.println("Error al cargar las asignaturas: " + e.getMessage());
+            String filePath = "asignaturas.dat"; // Ruta fija del fichero
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+                asignaturas = new ListaEnlazada<>();
+                while (true) {
+                    try {
+                        Asignatura asignatura = (Asignatura) ois.readObject();
+                        asignaturas.agregar(asignatura);
+                    } catch (EOFException e) {
+                        break; // End of file reached
+                    }
                 }
+                System.out.println("Asignaturas cargadas correctamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error al cargar las asignaturas: " + e.getMessage());
+            }
         }
 
         public void guardarTareas() {
-                String filePath = "tareas.dat"; // Ruta fija del fichero
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
-                        for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
-                                oos.writeObject(nodo.getDato().getTareas());
-                        }
-                        System.out.println("Tareas guardadas correctamente.");
-                } catch (IOException e) {
-                        System.err.println("Error al guardar las tareas: " + e.getMessage());
+            String nombreFichero = "tareas.dat"; // Nombre fijo del fichero
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))) {
+                NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
+                while (nodo != null) {
+                    ListaEnlazada<Tarea> tareas = nodo.getDato().getTareas();
+                    NodoLEG<Tarea> tareaNodo = tareas.getCabeza();
+                    while (tareaNodo != null) {
+                        oos.writeObject(tareaNodo.getDato());
+                        tareaNodo = tareaNodo.getSiguiente();
+                    }
+                    nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
                 }
+                System.out.println("Tareas guardadas correctamente.");
+            } catch (IOException e) {
+                System.err.println("Error al guardar las tareas: " + e.getMessage());
+            }
         }
 
         public void cargarTareas() {
-                String filePath = "tareas.dat"; // Ruta fija del fichero
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-                        for (NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); nodo != null; nodo = nodo.getSiguiente()) {
-                                nodo.getDato().setTareas((ListaEnlazada<Tarea>) ois.readObject());
+            String filePath = "tareas.dat"; // Ruta fija del fichero
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+                while (true) {
+                    try {
+                        Tarea tarea = (Tarea) ois.readObject();
+                        Asignatura asignatura = buscarAsignaturaPorCodigo(tarea.getCodigoAsignatura());
+                        if (asignatura != null) {
+                            asignatura.getTareas().agregar(tarea);
                         }
-                        System.out.println("Tareas cargadas correctamente.");
-                } catch (IOException | ClassNotFoundException e) {
-                        System.err.println("Error al cargar las tareas: " + e.getMessage());
+                    } catch (EOFException e) {
+                        break; // End of file reached
+                    }
                 }
+                System.out.println("Tareas cargadas correctamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error al cargar las tareas: " + e.getMessage());
+            }
         }
 
         public void altaAsignatura() {
@@ -89,37 +116,25 @@ public class GestionAsignaturas {
         }
 
         public Asignatura buscarAsignaturaPorCodigo(String codigo) {
-                NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
+            if (codigo == null) {
+                return null;
+            }
+            NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
 
-                while (nodo != null) {
-                        Asignatura asignatura = nodo.getDato();
+            while (nodo != null) {
+                Asignatura asignatura = nodo.getDato();
 
-                        // Comparamos los códigos sin espacios extra
-                        if (asignatura.getCodigo().trim().equalsIgnoreCase(codigo.trim())) {
-                                return asignatura; // Se encontró la asignatura
-                        }
-
-                        nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
+                // Comparamos los códigos sin espacios extra
+                if (asignatura.getCodigo().trim().equalsIgnoreCase(codigo.trim())) {
+                    return asignatura; // Se encontró la asignatura
                 }
 
-                return null; // No se encontró la asignatura
+                nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
+            }
+
+            return null; // No se encontró la asignatura
         }
 
-        public void guardarAsignaturasEnFichero() {
-                String nombreFichero = "asignaturas.txt"; // Nombre fijo del fichero
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreFichero, true))) { // Append mode
-                        NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
-                        while (nodo != null) {
-                                // Escribir la asignatura en el fichero
-                                writer.write(nodo.getDato().toString());
-                                writer.newLine(); // Nueva línea para la siguiente asignatura
-                                nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
-                        }
-                        System.out.println("Asignaturas guardadas en el fichero: " + nombreFichero);
-                } catch (IOException e) {
-                        System.err.println("Error al escribir en el fichero: " + e.getMessage());
-                }
-        }
 
         public void bajaAsignatura() {
                 boolean continuar = true;
@@ -279,5 +294,21 @@ public class GestionAsignaturas {
 
                         actual = actual.getSiguiente();
                 }
+        }
+
+        public void agregarTareasAAsignatura() {
+            mostrarListaAsignaturas();
+            System.out.println("Introduce el código de la asignatura a la que deseas agregar tareas: ");
+            String codigo = scanner.nextLine();
+
+            Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
+
+            if (asignatura == null) {
+                System.out.println("Error: este código no está registrado en la aplicación.");
+            } else {
+                System.out.println("Asignatura encontrada:");
+                System.out.println(asignatura);
+                asignatura.agregarTareasAsignatura();
+            }
         }
 }
