@@ -77,11 +77,11 @@ public class Menu {
                     break;
 
                 case 11:
-
+                    gestionAsignaturas.listarAsignaturasConMayorNumeroTareas();
                     break;
 
                 case 12:
-
+                    gestionAsignaturas.listarExamenesFinalesConMenorPuntuacion();
                     break;
 
                 case 0:

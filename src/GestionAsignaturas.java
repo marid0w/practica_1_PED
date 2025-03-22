@@ -149,9 +149,8 @@ public class GestionAsignaturas {
             if (asignatura == null) {
                 System.out.println("Error: este código no está registrado en la aplicación.");
             } else {
-                // Mostrar los datos de la asignatura
-                System.out.println("Asignatura encontrada:");
-                System.out.println(asignatura);
+                // Mostrar los detalles de la asignatura en el formato deseado
+                mostrarDetallesAsignatura(asignatura);
 
                 // Confirmación del usuario
                 System.out.println("¿Desea realmente dar de baja a esta asignatura? (S/N)");
@@ -173,6 +172,29 @@ public class GestionAsignaturas {
             }
         }
         mostrarListaAsignaturas();
+    }
+
+    public void mostrarDetallesAsignatura(Asignatura asignatura) {
+        System.out.println("\nASIGNATURA: " + asignatura.getNombre());
+        System.out.println("Código: " + asignatura.getCodigo());
+        System.out.println("Profesor: " + asignatura.getProfesor());
+
+        // Mostrar las tareas de la asignatura
+        System.out.println("\nTareas\t\tPuntuación");
+        System.out.println("-----------------------------");
+
+        NodoLEG<Tarea> nodoTarea = asignatura.getTareas().getCabeza();
+        int contador = 0; // Contador para depuración
+        while (nodoTarea != null) {
+            Tarea tarea = nodoTarea.getDato();
+            System.out.println(tarea.getNombre() + "\t\t" + tarea.getPuntuacion());
+            nodoTarea = nodoTarea.getSiguiente();
+            contador++; // Incrementar el contador
+        }
+
+        System.out.println("Total de tareas mostradas: " + contador); // Depuración
+        System.out.println("\nPulse <Intro> para continuar...");
+        scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
 
     public void mostrarListaAsignaturas() {
@@ -495,6 +517,155 @@ public class GestionAsignaturas {
 
         System.out.println("\nPulse <Intro> para continuar...");
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
+    }
+
+    public void listarAsignaturasConMayorNumeroTareas() {
+        if (asignaturas.getCabeza() == null) {
+            System.out.println("No hay asignaturas registradas.");
+            return;
+        }
+
+
+        int maxTareas = 0;
+        ListaEnlazada<Asignatura> asignaturasConMaxTareas = new ListaEnlazada<>();
+
+
+        NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
+        while (nodo != null) {
+            Asignatura asignatura = nodo.getDato();
+            int numTareas = contarTareas(asignatura.getTareas());
+
+            // Comparar con el máximo actual
+            if (numTareas > maxTareas) {
+                maxTareas = numTareas;
+                asignaturasConMaxTareas = new ListaEnlazada<>();
+                asignaturasConMaxTareas.agregar(asignatura);
+            } else if (numTareas == maxTareas) {
+                asignaturasConMaxTareas.agregar(asignatura);
+            }
+
+            nodo = nodo.getSiguiente();
+        }
+
+
+        System.out.println("\nASIGNATURAS CON EL MAYOR NÚMERO DE TAREAS");
+        System.out.println("-----------------------------------------");
+
+        NodoLEG<Asignatura> nodoMax = asignaturasConMaxTareas.getCabeza();
+        while (nodoMax != null) {
+            Asignatura asignatura = nodoMax.getDato();
+            int numTareas = contarTareas(asignatura.getTareas());
+
+            System.out.println(asignatura.getNombre() + " (cod. " + asignatura.getCodigo() + ") : " +
+                    obtenerDetalleTareas(asignatura.getTareas()) + " ⟶ " + numTareas + " tareas");
+            nodoMax = nodoMax.getSiguiente();
+        }
+
+        System.out.println("\nPulse <Intro> para continuar...");
+        scanner.nextLine();
+    }
+
+
+    private int contarTareas(ListaEnlazada<Tarea> tareas) {
+        int contador = 0;
+        NodoLEG<Tarea> nodo = tareas.getCabeza();
+        while (nodo != null) {
+            contador++;
+            nodo = nodo.getSiguiente();
+        }
+        return contador;
+    }
+
+    private String obtenerDetalleTareas(ListaEnlazada<Tarea> tareas) {
+        int practicas = 0, parciales = 0, examenesFinales = 0;
+
+        NodoLEG<Tarea> nodo = tareas.getCabeza();
+        while (nodo != null) {
+            Tarea tarea = nodo.getDato();
+            switch (tarea.getTipo()) {
+                case "practica":
+                    practicas++;
+                    break;
+                case "parcial":
+                    parciales++;
+                    break;
+                case "Examen Final":
+                    examenesFinales++;
+                    break;
+            }
+            nodo = nodo.getSiguiente();
+        }
+
+        return practicas + " prácticas, " + parciales + " examen parcial y " + examenesFinales + " examen final";
+    }
+
+    public void listarExamenesFinalesConMenorPuntuacion() {
+        if (asignaturas.getCabeza() == null) {
+            System.out.println("No hay asignaturas registradas.");
+            return;
+        }
+
+        // Variables para almacenar la menor puntuación y las asignaturas
+        double menorPuntuacion = Double.MAX_VALUE;
+        ListaEnlazada<Asignatura> asignaturasConMenorPuntuacion = new ListaEnlazada<>();
+
+
+        NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
+        while (nodo != null) {
+            Asignatura asignatura = nodo.getDato();
+            double puntuacionExamenFinal = obtenerPuntuacionExamenFinal(asignatura.getTareas());
+
+            // Comparar con la menor puntuación actual
+            if (puntuacionExamenFinal != -1) {
+                if (puntuacionExamenFinal < menorPuntuacion) {
+                    menorPuntuacion = puntuacionExamenFinal;
+                    asignaturasConMenorPuntuacion = new ListaEnlazada<>();
+                    asignaturasConMenorPuntuacion.agregar(asignatura);
+                } else if (puntuacionExamenFinal == menorPuntuacion) {
+                    asignaturasConMenorPuntuacion.agregar(asignatura);
+                }
+            }
+
+            nodo = nodo.getSiguiente();
+        }
+
+        // Mostrar las asignaturas con la menor puntuación en el examen final
+        System.out.println("\nASIGNATURAS CON MENOR PUNTUACIÓN EN EXAMEN FINAL");
+        System.out.println("-----------------------------------------------");
+
+        if (menorPuntuacion == Double.MAX_VALUE) {
+            System.out.println("No hay exámenes finales registrados.");
+        } else {
+            System.out.println(" Menor puntuación asignada:  " + menorPuntuacion + " puntos ");
+
+            System.out.println("\n Código     Asignatura    ");
+            System.out.println("-----------------------------------------------");
+
+            NodoLEG<Asignatura> nodoMenor = asignaturasConMenorPuntuacion.getCabeza();
+            while (nodoMenor != null) {
+                Asignatura asignatura = nodoMenor.getDato();
+                System.out.printf(" %-8s  %-12s \n",
+                        asignatura.getCodigo(),
+                        asignatura.getNombre());
+                nodoMenor = nodoMenor.getSiguiente();
+            }
+        }
+
+        System.out.println("\nPulse <Intro> para continuar...");
+        scanner.nextLine();
+    }
+
+
+    private double obtenerPuntuacionExamenFinal(ListaEnlazada<Tarea> tareas) {
+        NodoLEG<Tarea> nodo = tareas.getCabeza();
+        while (nodo != null) {
+            Tarea tarea = nodo.getDato();
+            if (tarea.getTipo().equalsIgnoreCase("Examen Final")) {
+                return tarea.getPuntuacion();
+            }
+            nodo = nodo.getSiguiente();
+        }
+        return -1;
     }
 
 }
