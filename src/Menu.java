@@ -15,26 +15,26 @@ public class Menu {
     public void mostrarMenu() {
         int opcion = 0;
         do {
-            System.out.println("\n\tMENU PRINCIPAL");
-            System.out.println("===================================");
-            System.out.println("1.- Alta de asignatura");
-            System.out.println("2.- Baja de asignatura");
-            System.out.println("3.- Modificación de  asignatura");
-            System.out.println("---------------------------------------------------");
-            System.out.println("4.- Añadir tareas a una asignatura");
-            System.out.println("---------------------------------------------------");
-            System.out.println("5.- Listado general de asignaturas por codigo (orden ascendente)");
-            System.out.println("6.- Listado general de asignaturas por codigo (orden descendente)");
-            System.out.println("7.- Listado datos completos de una asignatura");
-            System.out.println("8.- Listado completo de tareas");
-            System.out.println("9.- Listado resumido de tareas");
-            System.out.println("\n10.- Informe de puntuaciones - resumido");
-            System.out.println("---------------------------------------------------");
-            System.out.println("11.- Asignatura/s con el mayor numero de tareas");
-            System.out.println("12.- Examen/es final/es con menor puntuacion");
-            System.out.println("---------------------------------------------------");
-            System.out.println("\n0.- Salir");
-            System.out.println(" Elija una opción: ");
+            System.out.println("\n\t\t\t\t\t\t\t\tMENU PRINCIPAL");
+            System.out.println("\t=====================================================================");
+            System.out.println("\t 1.- Alta de asignatura");
+            System.out.println("\t 2.- Baja de asignatura");
+            System.out.println("\t 3.- Modificación de  asignatura");
+            System.out.println("\t----------------------------------------------------------------------");
+            System.out.println("\t 4.- Añadir tareas a una asignatura");
+            System.out.println("\t----------------------------------------------------------------------");
+            System.out.println("\t 5.- Listado general de asignaturas por codigo (orden ascendente)");
+            System.out.println("\t 6.- Listado general de asignaturas por codigo (orden descendente)");
+            System.out.println("\t 7.- Listado datos completos de una asignatura");
+            System.out.println("\t 8.- Listado completo de tareas");
+            System.out.println("\t 9.- Listado resumido de tareas");
+            System.out.println("\n\t 10.- Informe de puntuaciones - resumido");
+            System.out.println("\t----------------------------------------------------------------------");
+            System.out.println("\t 11.- Asignatura/s con el mayor numero de tareas");
+            System.out.println("\t 12.- Examen/es final/es con menor puntuacion");
+            System.out.println("\t------------------------------------------------------------------------");
+            System.out.println("\n\t0.- Salir");
+            System.out.println("\tElija una opción: ");
             opcion = scanner.nextInt();
 
             switch (opcion) {
