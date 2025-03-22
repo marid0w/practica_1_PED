@@ -1,3 +1,8 @@
+package librerias.excepcionesDeUsuario;
+
+import librerias.estructurasDeDatos.lineales.LEGOrdenada;
+import librerias.estructurasDeDatos.lineales.NodoLEG;
+
 import java.io.*;
 import java.util.Scanner;
 

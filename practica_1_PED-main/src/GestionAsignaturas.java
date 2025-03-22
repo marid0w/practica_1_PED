@@ -66,8 +66,16 @@ public class GestionAsignaturas {
     }
 
     public void cargarTareas() {
-        String filePath = "tareas.dat"; // Ruta  fichero
+        String filePath = "tareas.dat"; // Ruta del fichero
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            // Limpiar las tareas existentes antes de cargar las nuevas
+            NodoLEG<Asignatura> nodoAsignatura = asignaturas.getCabeza();
+            while (nodoAsignatura != null) {
+                nodoAsignatura.getDato().getTareas().limpiar(); // Limpiar tareas de cada asignatura
+                nodoAsignatura = nodoAsignatura.getSiguiente();
+            }
+
+            // Cargar las tareas desde el archivo
             while (true) {
                 try {
                     Tarea tarea = (Tarea) ois.readObject();
@@ -526,11 +534,11 @@ public class GestionAsignaturas {
             return;
         }
 
-
+        // Variables para almacenar el máximo número de tareas y las asignaturas correspondientes
         int maxTareas = 0;
         ListaEnlazada<Asignatura> asignaturasConMaxTareas = new ListaEnlazada<>();
 
-
+        // Recorrer todas las asignaturas
         NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
         while (nodo != null) {
             Asignatura asignatura = nodo.getDato();
@@ -539,16 +547,16 @@ public class GestionAsignaturas {
             // Comparar con el máximo actual
             if (numTareas > maxTareas) {
                 maxTareas = numTareas;
-                asignaturasConMaxTareas = new ListaEnlazada<>();
+                asignaturasConMaxTareas = new ListaEnlazada<>(); // Reiniciar la lista
                 asignaturasConMaxTareas.agregar(asignatura);
             } else if (numTareas == maxTareas) {
-                asignaturasConMaxTareas.agregar(asignatura);
+                asignaturasConMaxTareas.agregar(asignatura); // Añadir a la lista si tiene el mismo número de tareas
             }
 
             nodo = nodo.getSiguiente();
         }
 
-
+        // Mostrar las asignaturas con el mayor número de tareas
         System.out.println("\nASIGNATURAS CON EL MAYOR NÚMERO DE TAREAS");
         System.out.println("-----------------------------------------");
 
@@ -558,14 +566,13 @@ public class GestionAsignaturas {
             int numTareas = contarTareas(asignatura.getTareas());
 
             System.out.println(asignatura.getNombre() + " (cod. " + asignatura.getCodigo() + ") : " +
-                    obtenerDetalleTareas(asignatura.getTareas()) + " ⟶ " + numTareas + " tareas");
+                    obtenerDetalleTareas(asignatura.getTareas()) + " → " + numTareas + " tareas");
             nodoMax = nodoMax.getSiguiente();
         }
 
         System.out.println("\nPulse <Intro> para continuar...");
-        scanner.nextLine();
+        scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
-
 
     private int contarTareas(ListaEnlazada<Tarea> tareas) {
         int contador = 0;
@@ -583,23 +590,22 @@ public class GestionAsignaturas {
         NodoLEG<Tarea> nodo = tareas.getCabeza();
         while (nodo != null) {
             Tarea tarea = nodo.getDato();
-            switch (tarea.getTipo()) {
+            switch (tarea.getTipo().toLowerCase()) {
                 case "practica":
                     practicas++;
                     break;
                 case "parcial":
                     parciales++;
                     break;
-                case "Examen Final":
+                case "examen final":
                     examenesFinales++;
                     break;
             }
             nodo = nodo.getSiguiente();
         }
 
-        return practicas + " prácticas, " + parciales + " examen parcial y " + examenesFinales + " examen final";
+        return practicas + " prácticas, " + parciales + " parciales y " + examenesFinales + " exámenes finales";
     }
-
     public void listarExamenesFinalesConMenorPuntuacion() {
         if (asignaturas.getCabeza() == null) {
             System.out.println("No hay asignaturas registradas.");

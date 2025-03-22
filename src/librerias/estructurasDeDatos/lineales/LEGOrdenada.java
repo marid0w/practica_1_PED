@@ -1,3 +1,8 @@
+package librerias.estructurasDeDatos.lineales;
+
+
+import librerias.excepcionesDeUsuario.ListaEnlazada;
+
 public class LEGOrdenada<T extends Comparable<T>> extends ListaEnlazada<T> {
     public LEGOrdenada() {
         super();

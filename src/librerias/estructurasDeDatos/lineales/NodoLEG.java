@@ -1,4 +1,7 @@
+package librerias.estructurasDeDatos.lineales;
+
 import java.io.Serializable;
+
 
 public class NodoLEG<T> implements Serializable {
     private T dato;
