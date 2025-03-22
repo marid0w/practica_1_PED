@@ -112,13 +112,13 @@ public class Asignatura implements Serializable , Comparable<Asignatura> {
             String tipo;
             while (true) {
                 tipo = scanner.nextLine().trim().toLowerCase();
-                if (tipo.equals("practica") || tipo.equals("parcial") || tipo.equals("Examen Final")) {
+                if (tipo.equals("practica") || tipo.equals("parcial") || tipo.equals("Examen Final".toLowerCase())) {
                     break;
                 }
                 System.out.println("Error: Tipo de tarea inválido. Use 'practica', 'parcial' o 'Examen Final'.");
             }
 
-            Tarea nuevaTarea = new Tarea(nombreTarea, puntuacion, tipo);
+            Tarea nuevaTarea = new Tarea(nombreTarea, puntuacion, tipo, this.codigo);
             if (agregarTarea(nuevaTarea)) {
                 System.out.println("Tarea añadida correctamente.");
             }

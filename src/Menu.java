@@ -23,7 +23,7 @@ public class Menu {
             System.out.println("\n---------------------------------------------------");
             System.out.println("\n4.- Añadir tareas a una asignatura");
             System.out.println("\n---------------------------------------------------");
-            System.out.println("\n5.- Listado general de asignaturas por codigo (orden ascendente");
+            System.out.println("\n5.- Listado general de asignaturas por codigo (orden ascendente)");
             System.out.println("\n6.- Listado general de asignaturas por codigo (orden descendente)");
             System.out.println("\n7.- Listado datos completos de una asignatura");
             System.out.println("\n8.- Listado completo de tareas");
@@ -51,7 +51,7 @@ public class Menu {
                     break;
 
                 case 4:
-                    asignatura.agregarTareasAsignatura();
+                    gestionAsignaturas.agregarTareasAAsignatura();
                     break;
 
                 case 5:
@@ -65,21 +65,28 @@ public class Menu {
                     break;
 
                 case 8:
+                    gestionAsignaturas.listarCompletoTareas();
                     break;
 
                 case 9:
+                    gestionAsignaturas.listarResumidoTareas();
                     break;
 
                 case 10:
+                    gestionAsignaturas.informePuntuacionesResumido();
                     break;
 
                 case 11:
+
                     break;
 
                 case 12:
+
                     break;
 
                 case 0:
+                    gestionAsignaturas.guardarAsignaturas();
+                    gestionAsignaturas.guardarTareas();
                     System.out.println("Saliendo...");
                     break;
 
