@@ -1,3 +1,7 @@
+package librerias.excepcionesDeUsuario;
+
+import librerias.estructurasDeDatos.lineales.NodoLEG;
+
 import java.io.Serializable;
 
 public class ListaEnlazada<T> implements Serializable {

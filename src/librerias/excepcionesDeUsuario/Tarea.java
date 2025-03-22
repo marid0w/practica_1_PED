@@ -1,3 +1,5 @@
+package librerias.excepcionesDeUsuario;
+
 import java.io.Serializable;
 
 public class Tarea implements Serializable {

@@ -52,5 +52,9 @@ public class ListaEnlazada<T> implements Serializable {
         this.cabeza = cabeza;
     }
 
+    public void limpiar() {
+        this.cabeza = null; // Eliminar todos los nodos
+    }
+
 
 }
