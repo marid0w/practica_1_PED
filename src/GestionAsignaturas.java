@@ -5,6 +5,7 @@ public class GestionAsignaturas {
         private ListaEnlazada<Asignatura> asignaturas;
         private Scanner scanner;
         private LEGOrdenada<Asignatura> asignaturasOrdenadasAscendente;
+        private LEGOrdenada<Asignatura> asignaturasOrdenadasDescendente;
 
 
         public GestionAsignaturas() {
