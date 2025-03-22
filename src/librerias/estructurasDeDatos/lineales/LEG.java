@@ -1,18 +1,29 @@
 package librerias.estructurasDeDatos.lineales;
+
 import librerias.estructurasDeDatos.modelos.LE;
 
+/**
+ * Clase que implementa una Lista Enlazada Genérica (LEG).
+ *
+ * @param <T> el tipo de elementos que contendrá la lista
+ */
 public class LEG<T> implements LE<T> {
     private NodoLEG<T> cabeza; // Nodo inicial de la lista
     private int tamaño; // Tamaño de la lista
 
-    // Constructor
+    /**
+     * Constructor que inicializa una lista vacía.
+     */
     public LEG() {
         this.cabeza = null;
         this.tamaño = 0;
     }
 
-    // Implementación de los métodos de la interfaz LE
-
+    /**
+     * Agrega un elemento al final de la lista.
+     *
+     * @param elemento el elemento a agregar
+     */
     @Override
     public void agregar(T elemento) {
         NodoLEG<T> nuevoNodo = new NodoLEG<>(elemento);
@@ -28,6 +39,11 @@ public class LEG<T> implements LE<T> {
         tamaño++;
     }
 
+    /**
+     * Elimina un elemento de la lista.
+     *
+     * @param elemento el elemento a eliminar
+     */
     @Override
     public void eliminar(T elemento) {
         if (cabeza == null) return;
@@ -52,6 +68,12 @@ public class LEG<T> implements LE<T> {
         }
     }
 
+    /**
+     * Busca un elemento en la lista.
+     *
+     * @param elemento el elemento a buscar
+     * @return true si el elemento está en la lista, false en caso contrario
+     */
     @Override
     public boolean buscar(T elemento) {
         NodoLEG<T> actual = cabeza;
@@ -64,11 +86,21 @@ public class LEG<T> implements LE<T> {
         return false;
     }
 
+    /**
+     * Verifica si la lista está vacía.
+     *
+     * @return true si la lista está vacía, false en caso contrario
+     */
     @Override
     public boolean estaVacia() {
         return cabeza == null;
     }
 
+    /**
+     * Devuelve el tamaño de la lista.
+     *
+     * @return el tamaño de la lista
+     */
     @Override
     public int tamaño() {
         return tamaño;

@@ -2,18 +2,27 @@ package librerias.excepcionesDeUsuario;
 
 import java.util.Scanner;
 
+/**
+ * Clase que representa el menú principal de gestión de asignaturas y tareas.
+ */
 public class Menu {
 
     private Scanner scanner;
     private GestionAsignaturas gestionAsignaturas;
     private Asignatura asignatura;
 
+    /**
+     * Constructor que inicializa el menú con un scanner y una gestión de asignaturas.
+     */
     public Menu() {
         scanner = new Scanner(System.in);
         gestionAsignaturas = new GestionAsignaturas();
         asignatura = new Asignatura("nombre", "codigo", "profesor");
     }
 
+    /**
+     * Muestra el menú principal y gestiona las opciones seleccionadas por el usuario.
+     */
     public void mostrarMenu() {
         int opcion = 0;
         do {
@@ -60,10 +69,12 @@ public class Menu {
                     gestionAsignaturas.listarAsignaturasPorCodigoAscendente();
                     break;
 
-                case 6:gestionAsignaturas.listarAsignaturasPorCodigoDescendente();
+                case 6:
+                    gestionAsignaturas.listarAsignaturasPorCodigoDescendente();
                     break;
 
-                case 7:gestionAsignaturas.listarDatosCompletosAsignatura();
+                case 7:
+                    gestionAsignaturas.listarDatosCompletosAsignatura();
                     break;
 
                 case 8:
@@ -96,8 +107,6 @@ public class Menu {
                     System.out.println("Opción no válida.");
             }
 
-        }while (opcion != 0);
+        } while (opcion != 0);
     }
-
 }
-
