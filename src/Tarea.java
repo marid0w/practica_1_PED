@@ -5,13 +5,13 @@ public class Tarea implements Serializable {
     private String nombre;
     private int puntuacion;
     private String tipo;
-    private String codigoAsignatura; // Add this field
+    private String codigoAsignatura;
 
     public Tarea(String nombre, int puntuacion, String tipo, String codigoAsignatura) {
         this.nombre = nombre;
         this.puntuacion = puntuacion;
         this.tipo = tipo;
-        this.codigoAsignatura = codigoAsignatura; // Initialize the field
+        this.codigoAsignatura = codigoAsignatura;
     }
 
     public String getNombre() {
@@ -26,16 +26,17 @@ public class Tarea implements Serializable {
         return tipo;
     }
 
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
     public String getCodigoAsignatura() {
-        return codigoAsignatura; // Return the code of the associated Asignatura
+        return codigoAsignatura;
     }
 
     @Override
     public String toString() {
-        return nombre + " (" + tipo + ") - Puntos: " + puntuacion;
+        return "Tarea{" +
+                "nombre='" + nombre + '\'' +
+                ", puntuacion=" + puntuacion +
+                ", tipo='" + tipo + '\'' +
+                ", codigoAsignatura='" + codigoAsignatura + '\'' +
+                '}';
     }
 }

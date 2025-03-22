@@ -10,8 +10,8 @@ public class GestionAsignaturas {
         this.asignaturas = new ListaEnlazada<>();
         this.scanner = new Scanner(System.in);
         this.asignaturasOrdenadasAscendente = new LEGOrdenada<>();
-                cargarAsignaturas();
-                cargarTareas();
+        cargarAsignaturas();
+        cargarTareas();
     }
 
     public void guardarAsignaturas() {
@@ -324,23 +324,23 @@ public class GestionAsignaturas {
     public void listarAsignaturasPorCodigoDescendente() {
         ordenarListaPorCodigoDescendente();
 
-        System.out.println("| LISTADO GENERAL DE ASIGNATURAS (Descendente) |");
-        System.out.println("|---------------------------------------------|");
-        System.out.println("| Código   | Asignatura          | Profesor/a |");
-        System.out.println("|---------------------------------------------|");
+        System.out.println(" LISTADO GENERAL DE ASIGNATURAS (Descendente) ");
+        System.out.println("------------------------------------------------");
+        System.out.println(" Código       Asignatura              Profesor/a ");
+        System.out.println("------------------------------------------------");
 
         NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
         while (nodo != null) {
             Asignatura asignatura = nodo.getDato();
-            System.out.printf("| %-8s | %-18s | %-10s |\n",
+            System.out.printf("| %-8s | %-24s | %-20s |\n",
                     asignatura.getCodigo(),
                     asignatura.getNombre(),
                     asignatura.getProfesor());
             nodo = nodo.getSiguiente();
         }
 
-        System.out.println("|---------------------------------------------|");
-        System.out.println("...... Pulse <Intro> para continuar...");
+        System.out.println("------------------------------------------------");
+        System.out.println("......... Pulse <Intro> para continuar .........");
         scanner.nextLine();
     }
 
@@ -376,18 +376,14 @@ public class GestionAsignaturas {
     }
 
     public void agregarTareasAAsignatura() {
-        mostrarListaAsignaturas();
         System.out.println("Introduce el código de la asignatura a la que deseas agregar tareas: ");
-        String codigo = scanner.nextLine();
+        String codigoAsignatura = scanner.nextLine();
 
-        Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
-
-        if (asignatura == null) {
-            System.out.println("Error: este código no está registrado en la aplicación.");
-        } else {
-            System.out.println("Asignatura encontrada:");
-            System.out.println(asignatura);
+        Asignatura asignatura = buscarAsignaturaPorCodigo(codigoAsignatura);
+        if (asignatura != null) {
             asignatura.agregarTareasAsignatura();
+        } else {
+            System.out.println("Asignatura no encontrada.");
         }
     }
 
@@ -431,7 +427,6 @@ public class GestionAsignaturas {
         System.out.println("----------------------------------------------------------------------------");
 
         NodoLEG<Asignatura> nodoAsignatura = asignaturas.getCabeza();
-
         while (nodoAsignatura != null) {
             Asignatura asignatura = nodoAsignatura.getDato();
             int numeroTareas = 0;
@@ -448,7 +443,11 @@ public class GestionAsignaturas {
                 nodoTarea = nodoTarea.getSiguiente();
             }
 
-            System.out.printf("%-10s %-30s %-15d %s\n", asignatura.getCodigo(), asignatura.getNombre(), numeroTareas, examenFinal ? "SI" : "NO");
+            System.out.printf("%-10s %-30s %-15d %s\n",
+                    asignatura.getCodigo(),
+                    asignatura.getNombre(),
+                    numeroTareas,
+                    examenFinal ? "SI" : "NO");
             System.out.println("----------------------------------------------------------------------------");
             nodoAsignatura = nodoAsignatura.getSiguiente();
         }
@@ -467,29 +466,29 @@ public class GestionAsignaturas {
 
         while (nodoAsignatura != null) {
             Asignatura asignatura = nodoAsignatura.getDato();
-            int practicas = 0;
-            int examenesParciales = 0;
-            int examenFinal = 0;
+            String practicas = "----";
+            String examenesParciales = "----";
+            String examenFinal = "----";
 
             NodoLEG<Tarea> nodoTarea = asignatura.getTareas().getCabeza();
             while (nodoTarea != null) {
                 Tarea tarea = nodoTarea.getDato();
-                if (tarea.getTipo().equalsIgnoreCase("Práctica")) {
-                    practicas += tarea.getPuntuacion();
-                } else if (tarea.getTipo().equalsIgnoreCase("Examen Parcial")) {
-                    examenesParciales += tarea.getPuntuacion();
+                if (tarea.getTipo().equalsIgnoreCase("Practica")) {
+                    practicas = String.valueOf(tarea.getPuntuacion());
+                } else if (tarea.getTipo().equalsIgnoreCase("Parcial")) {
+                    examenesParciales = String.valueOf(tarea.getPuntuacion());
                 } else if (tarea.getTipo().equalsIgnoreCase("Examen Final")) {
-                    examenFinal = tarea.getPuntuacion();
+                    examenFinal = String.valueOf(tarea.getPuntuacion());
                 }
                 nodoTarea = nodoTarea.getSiguiente();
             }
 
-            System.out.printf("%-10s %-30s %-15s %-30s %d\n",
-                asignatura.getCodigo(),
-                asignatura.getNombre(),
-                practicas == 0 ? "----" : String.valueOf(practicas),
-                examenesParciales == 0 ? "----" : String.valueOf(examenesParciales),
-                examenFinal == 0 ? "----" : examenFinal);
+            System.out.printf("%-10s %-30s %-15s %-30s %s\n",
+                    asignatura.getCodigo(),
+                    asignatura.getNombre(),
+                    practicas,
+                    examenesParciales,
+                    examenFinal);
             System.out.println("-------------------------------------------------------------------------------------------------------------");
             nodoAsignatura = nodoAsignatura.getSiguiente();
         }
@@ -497,6 +496,5 @@ public class GestionAsignaturas {
         System.out.println("\nPulse <Intro> para continuar...");
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
-
 
 }

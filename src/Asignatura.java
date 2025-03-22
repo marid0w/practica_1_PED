@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class Asignatura implements Serializable , Comparable<Asignatura> {
+public class Asignatura implements Serializable, Comparable<Asignatura> {
     private static final long serialVersionUID = 1L;
     private String nombre;
     private String codigo;
@@ -69,16 +69,19 @@ public class Asignatura implements Serializable , Comparable<Asignatura> {
     }
 
     public boolean agregarTarea(Tarea tarea) {
-        if (tarea.getTipo().equals("Examen Final")) {
+        // Verificar si ya existe un examen final
+        if (tarea.getTipo().equalsIgnoreCase("Examen Final")) {
             NodoLEG<Tarea> nodo = tareas.getCabeza();
             while (nodo != null) {
-                if (nodo.getDato().getTipo().equals("Examen Final")) {
+                if (nodo.getDato().getTipo().equalsIgnoreCase("Examen Final")) {
                     System.out.println("Ya existe un examen final");
                     return false;
                 }
                 nodo = nodo.getSiguiente();
             }
         }
+
+        // Verificar si la suma de las puntuaciones no supera 10
         if (obtenerSumaPuntuacionesTareas() + tarea.getPuntuacion() <= 10) {
             aniadirTarea(tarea);
             return true;
@@ -89,6 +92,10 @@ public class Asignatura implements Serializable , Comparable<Asignatura> {
     }
 
     public void agregarTareasAsignatura() {
+        if (scanner == null) {
+            scanner = new Scanner(System.in);
+        }
+
         boolean continuar = true;
         while (continuar) {
             System.out.println("Introduce el nombre de la tarea: ");
@@ -112,7 +119,7 @@ public class Asignatura implements Serializable , Comparable<Asignatura> {
             String tipo;
             while (true) {
                 tipo = scanner.nextLine().trim().toLowerCase();
-                if (tipo.equals("practica") || tipo.equals("parcial") || tipo.equals("Examen Final".toLowerCase())) {
+                if (tipo.equals("practica") || tipo.equals("parcial") || tipo.equals("examen final")) {
                     break;
                 }
                 System.out.println("Error: Tipo de tarea inválido. Use 'practica', 'parcial' o 'Examen Final'.");
