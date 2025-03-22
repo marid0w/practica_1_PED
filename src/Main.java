@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
-        //Objetos
+        // Objetos
         GestionAsignaturas gestion = new GestionAsignaturas();
         Menu menu = new Menu();
 
-        //Instancias
+        // Instancias
         gestion.cargarAsignaturas();
         gestion.cargarTareas();
         menu.mostrarMenu();

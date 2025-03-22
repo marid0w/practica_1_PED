@@ -15,12 +15,12 @@ public class GestionAsignaturas {
     }
 
     public void guardarAsignaturas() {
-        String nombreFichero = "asignaturas.dat"; // Nombre fijo del fichero
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))) {
-            NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
+        String filePath = "asignaturas.dat";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
             while (nodo != null) {
-                oos.writeObject(nodo.getDato()); // Escribir la asignatura en el fichero
-                nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
+                oos.writeObject(nodo.getDato());
+                nodo = nodo.getSiguiente();
             }
             System.out.println("Asignaturas guardadas correctamente.");
         } catch (IOException e) {
@@ -29,9 +29,8 @@ public class GestionAsignaturas {
     }
 
     public void cargarAsignaturas() {
-        String filePath = "asignaturas.dat"; // Ruta fija del fichero
+        String filePath = "asignaturas.dat";
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-            asignaturas = new ListaEnlazada<>();
             while (true) {
                 try {
                     Asignatura asignatura = (Asignatura) ois.readObject();
@@ -46,34 +45,26 @@ public class GestionAsignaturas {
         }
     }
 
-    public void guardarTareas() {
-        String nombreFichero = "tareas.dat"; // Nombre fijo del fichero
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFichero))) {
-            NodoLEG<Asignatura> nodo = asignaturas.getCabeza(); // Obtener la cabeza de la lista
-            while (nodo != null) {
-                ListaEnlazada<Tarea> tareas = nodo.getDato().getTareas();
-                NodoLEG<Tarea> tareaNodo = tareas.getCabeza();
-                while (tareaNodo != null) {
-                    oos.writeObject(tareaNodo.getDato());
-                    tareaNodo = tareaNodo.getSiguiente();
-                }
-                nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
-            }
-            System.out.println("Tareas guardadas correctamente.");
-        } catch (IOException e) {
-            System.err.println("Error al guardar las tareas: " + e.getMessage());
-        }
-    }
-
     public void cargarTareas() {
-        String filePath = "tareas.dat"; // Ruta fija del fichero
+        String filePath = "tareas.dat";
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
             while (true) {
                 try {
                     Tarea tarea = (Tarea) ois.readObject();
                     Asignatura asignatura = buscarAsignaturaPorCodigo(tarea.getCodigoAsignatura());
                     if (asignatura != null) {
-                        asignatura.getTareas().agregar(tarea);
+                        boolean exists = false;
+                        NodoLEG<Tarea> nodoTarea = asignatura.getTareas().getCabeza();
+                        while (nodoTarea != null) {
+                            if (nodoTarea.getDato().equals(tarea)) {
+                                exists = true;
+                                break;
+                            }
+                            nodoTarea = nodoTarea.getSiguiente();
+                        }
+                        if (!exists) {
+                            asignatura.getTareas().agregar(tarea);
+                        }
                     }
                 } catch (EOFException e) {
                     break; // End of file reached
@@ -82,6 +73,25 @@ public class GestionAsignaturas {
             System.out.println("Tareas cargadas correctamente.");
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error al cargar las tareas: " + e.getMessage());
+        }
+    }
+
+    public void guardarTareas() {
+        String filePath = "tareas.dat";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            NodoLEG<Asignatura> nodoAsignatura = asignaturas.getCabeza();
+            while (nodoAsignatura != null) {
+                Asignatura asignatura = nodoAsignatura.getDato();
+                NodoLEG<Tarea> nodoTarea = asignatura.getTareas().getCabeza();
+                while (nodoTarea != null) {
+                    oos.writeObject(nodoTarea.getDato());
+                    nodoTarea = nodoTarea.getSiguiente();
+                }
+                nodoAsignatura = nodoAsignatura.getSiguiente();
+            }
+            System.out.println("Tareas guardadas correctamente.");
+        } catch (IOException e) {
+            System.err.println("Error al guardar las tareas: " + e.getMessage());
         }
     }
 
