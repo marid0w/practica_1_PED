@@ -74,11 +74,11 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
 
     public boolean agregarTarea(Tarea tarea) {
         // Verificar si ya existe un examen final
-        if (tarea.getTipo().equalsIgnoreCase("Examen Final")) {
+        if (tarea.getTipo().equalsIgnoreCase("\tExamen Final")) {
             NodoLEG<Tarea> nodo = tareas.getCabeza();
             while (nodo != null) {
-                if (nodo.getDato().getTipo().equalsIgnoreCase("Examen Final")) {
-                    System.out.println("Ya existe un examen final");
+                if (nodo.getDato().getTipo().equalsIgnoreCase("\tExamen Final")) {
+                    System.out.println("\tYa existe un examen final");
                     return false;
                 }
                 nodo = nodo.getSiguiente();
@@ -90,7 +90,7 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
             aniadirTarea(tarea);
             return true;
         } else {
-            System.out.println("No se puede agregar la tarea, la suma de las puntuaciones supera 10");
+            System.out.println("\n\tNo se puede agregar la tarea, la suma de las puntuaciones supera 10\n");
             return false;
         }
     }
@@ -102,10 +102,10 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
 
         boolean continuar = true;
         while (continuar) {
-            System.out.println("Introduce el nombre de la tarea: ");
+            System.out.println("\n\tIntroduce el nombre de la tarea: ");
             String nombreTarea = scanner.nextLine().trim();
 
-            System.out.println("Introduce la puntuación de la tarea (0-10): ");
+            System.out.println("\tIntroduce la puntuación de la tarea (0-10): ");
             int puntuacion;
             while (true) {
                 try {
@@ -115,26 +115,26 @@ public class Asignatura implements Serializable, Comparable<Asignatura> {
                     }
                     break;
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Introduzca un valor válido entre 0 y 10.");
+                    System.out.println("\n\tError: Introduzca un valor válido entre 0 y 10.");
                 }
             }
 
-            System.out.println("Introduce el tipo de tarea (practica, parcial, Examen Final): ");
+            System.out.println("\tIntroduce el tipo de tarea (practica, parcial, Examen Final): ");
             String tipo;
             while (true) {
                 tipo = scanner.nextLine().trim().toLowerCase();
                 if (tipo.equals("practica") || tipo.equals("parcial") || tipo.equals("examen final")) {
                     break;
                 }
-                System.out.println("Error: Tipo de tarea inválido. Use 'practica', 'parcial' o 'Examen Final'.");
+                System.out.println("\n\tError: Tipo de tarea inválido. Use 'practica', 'parcial' o 'Examen Final'.");
             }
 
             Tarea nuevaTarea = new Tarea(nombreTarea, puntuacion, tipo, this.codigo);
             if (agregarTarea(nuevaTarea)) {
-                System.out.println("Tarea añadida correctamente.");
+                System.out.println("\tTarea añadida correctamente.");
             }
 
-            System.out.println("¿Desea añadir otra tarea? (S/N)");
+            System.out.println("\n\t¿Desea añadir otra tarea? (S/N)");
             String respuesta = scanner.nextLine().trim().toUpperCase();
             if (!respuesta.equals("S")) {
                 continuar = false;

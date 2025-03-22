@@ -27,9 +27,9 @@ public class GestionAsignaturas {
                 oos.writeObject(nodo.getDato()); // Escribir la asignatura en el fichero
                 nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
             }
-            System.out.println("Asignaturas guardadas correctamente.");
+            System.out.println("\tAsignaturas guardadas correctamente.");
         } catch (IOException e) {
-            System.err.println("Error al guardar las asignaturas: " + e.getMessage());
+            System.err.println("\tError al guardar las asignaturas: " + e.getMessage());
         }
     }
 
@@ -45,9 +45,9 @@ public class GestionAsignaturas {
                     break;
                 }
             }
-            System.out.println("Asignaturas cargadas correctamente.");
+            System.out.println("\tAsignaturas cargadas correctamente.");
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error al cargar las asignaturas: " + e.getMessage());
+            System.err.println("\tError al cargar las asignaturas: " + e.getMessage());
         }
     }
 
@@ -64,9 +64,9 @@ public class GestionAsignaturas {
                 }
                 nodo = nodo.getSiguiente(); // Avanzar al siguiente nodo
             }
-            System.out.println("Tareas guardadas correctamente.");
+            System.out.println("\tTareas guardadas correctamente.");
         } catch (IOException e) {
-            System.err.println("Error al guardar las tareas: " + e.getMessage());
+            System.err.println("\tError al guardar las tareas: " + e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class GestionAsignaturas {
             // Limpiar las tareas existentes antes de cargar las nuevas
             NodoLEG<Asignatura> nodoAsignatura = asignaturas.getCabeza();
             while (nodoAsignatura != null) {
-                nodoAsignatura.getDato().getTareas().limpiar(); // Limpiar tareas de cada asignatura
+                nodoAsignatura.getDato().getTareas().limpiar();
                 nodoAsignatura = nodoAsignatura.getSiguiente();
             }
 
@@ -92,36 +92,38 @@ public class GestionAsignaturas {
                     break;
                 }
             }
-            System.out.println("Tareas cargadas correctamente.");
+            System.out.println("\tTareas cargadas correctamente.");
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error al cargar las tareas: " + e.getMessage());
+            System.err.println("\tError al cargar las tareas: " + e.getMessage());
         }
     }
 
     public void altaAsignatura() {
         boolean continuar = true;
 
+        System.out.println("\n\t\t\tALTA DE ASIGNATURA");
+
         while (continuar) {
-            System.out.println("Introduce el código de la asignatura (numero entero): ");
+            System.out.println("\n\tIntroduce el código de la asignatura (numero entero): ");
             String codigo = scanner.nextLine();
 
             // Comprueba si el código ya existe en la lista
             if (buscarAsignaturaPorCodigo(codigo) != null) {
-                System.out.println("Error: este código ya está registrado en la aplicación.");
+                System.out.println("\n\tError: este código ya está registrado en la aplicación.");
             } else {
 
-                System.out.println("Introduce el nombre de la asignatura: ");
+                System.out.println("\tIntroduce el nombre de la asignatura: ");
                 String nombre = scanner.nextLine();
-                System.out.println("Introduce el profesor de la asignatura: ");
+                System.out.println("\tIntroduce el profesor de la asignatura: ");
                 String profesor = scanner.nextLine();
 
                 Asignatura asignatura = new Asignatura(nombre, codigo, profesor);
                 asignaturas.agregar(asignatura);
-                System.out.println("Asignatura añadida correctamente.");
+                System.out.println("\tAsignatura añadida correctamente.");
             }
 
 
-            System.out.println("¿Desea añadir una nueva asignatura? (S/N)");
+            System.out.println("\n\t¿Desea añadir una nueva asignatura? (S/N)");
             String respuesta = scanner.nextLine().trim().toUpperCase();
             if (!respuesta.equals("S")) {
                 continuar = false;
@@ -153,32 +155,34 @@ public class GestionAsignaturas {
         boolean continuar = true;
         mostrarListaAsignaturas();
 
+        System.out.println("\n\t\t\tBAJA DE ASIGNATURA");
+
         while (continuar) {
-            System.out.println("Introduce el código de la asignatura a dar de baja: ");
+            System.out.println("\n\tIntroduce el código de la asignatura a dar de baja: ");
             String codigo = scanner.nextLine();
 
             Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
 
             if (asignatura == null) {
-                System.out.println("Error: este código no está registrado en la aplicación.");
+                System.out.println("\n\tError: este código no está registrado en la aplicación.");
             } else {
                 // Mostrar los detalles de la asignatura en el formato deseado
                 mostrarDetallesAsignatura(asignatura);
 
                 // Confirmación del usuario
-                System.out.println("¿Desea realmente dar de baja a esta asignatura? (S/N)");
+                System.out.println("\n\t¿Desea realmente dar de baja a esta asignatura? (S/N)");
                 String respuesta = scanner.nextLine().trim().toUpperCase();
 
                 if (respuesta.equals("S")) {
                     asignaturas.eliminar(asignatura);
-                    System.out.println("Asignatura eliminada correctamente.");
+                    System.out.println("\tAsignatura eliminada correctamente.");
                 } else {
-                    System.out.println("Proceso de baja abortado.");
+                    System.out.println("\tProceso de baja abortado.");
                 }
             }
 
             // Preguntar si desea dar de baja otra asignatura
-            System.out.println("¿Desea dar de baja otra asignatura? (S/N)");
+            System.out.println("\n\t¿Desea dar de baja otra asignatura? (S/N)");
             String respuestaContinuar = scanner.nextLine().trim().toUpperCase();
             if (!respuestaContinuar.equals("S")) {
                 continuar = false;
@@ -222,21 +226,23 @@ public class GestionAsignaturas {
         boolean continuar = true;
         mostrarListaAsignaturas();
 
+        System.out.println("\n\t\t\tMODIFICACION DATOS DE ASIGNATURA");
+
         while (continuar) {
-            System.out.println("Introduce el código de la asignatura a modificar: ");
+            System.out.println("\n\tIntroduce el código de la asignatura a modificar: ");
             String codigo = scanner.nextLine();
 
             Asignatura asignatura = buscarAsignaturaPorCodigo(codigo);
 
             if (asignatura == null) {
-                System.out.println("Error: este código no está registrado en la aplicación.");
+                System.out.println("\n\tError: este código no está registrado en la aplicación.");
             } else {
 
-                System.out.println("Asignatura encontrada:");
+                System.out.println("\tAsignatura encontrada:");
                 System.out.println(asignatura);
 
 
-                System.out.println("¿Desea realmente modificar los datos de esta asignatura? (S/N)");
+                System.out.println("\t¿Desea realmente modificar los datos de esta asignatura? (S/N)");
                 String respuesta = scanner.nextLine().trim().toUpperCase();
 
                 if (respuesta.equals("S")) {
@@ -382,6 +388,8 @@ public class GestionAsignaturas {
     public void listarDatosCompletosAsignatura() {
         boolean continuar = true;
 
+        System.out.println("\n\t\t\tLISTAR DATOS COMPLETOS DE UNA ASIGNATURA");
+
         while (continuar) {
             System.out.println("\n\t\tIntroduce el código de la asignatura: ");
             String codigo = scanner.nextLine();
@@ -422,6 +430,8 @@ public class GestionAsignaturas {
 
     public void agregarTareasAAsignatura() {
         boolean continuar = true;
+
+        System.out.println("\n\t\t\tAGREGAR TAREAS A ASIGNATURA");
 
         while (continuar) {
             mostrarListaAsignaturas();
@@ -592,7 +602,7 @@ public class GestionAsignaturas {
 
         // Mostrar las asignaturas con el mayor número de tareas
         System.out.println("\n\t\tASIGNATURAS CON EL MAYOR NÚMERO DE TAREAS");
-        System.out.println("\t-----------------------------------------");
+        System.out.println("\t\t-----------------------------------------");
 
         NodoLEG<Asignatura> nodoMax = asignaturasConMaxTareas.getCabeza();
         while (nodoMax != null) {
@@ -672,7 +682,7 @@ public class GestionAsignaturas {
 
         // Mostrar las asignaturas con la menor puntuación en el examen final
         System.out.println("\n\t\tASIGNATURAS CON MENOR PUNTUACIÓN EN EXAMEN FINAL");
-        System.out.println("\t-----------------------------------------------");
+        System.out.println("\t\t-----------------------------------------------");
 
         if (menorPuntuacion == Double.MAX_VALUE) {
             System.out.println("\tNo hay exámenes finales registrados.");
