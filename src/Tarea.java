@@ -39,4 +39,5 @@ public class Tarea implements Serializable {
                 ", codigoAsignatura='" + codigoAsignatura + '\'' +
                 '}';
     }
+
 }

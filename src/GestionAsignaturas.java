@@ -89,18 +89,36 @@ public class GestionAsignaturas {
         boolean continuar = true;
 
         while (continuar) {
-            System.out.println("Introduce el código de la asignatura (numero entero): ");
-            String codigo = scanner.nextLine();
+            String codigo;
+            do {
+                System.out.println("Introduce el código de la asignatura (numero entero): ");
+                codigo = scanner.nextLine();
+                if (!codigo.matches("\\d+")) {
+                    System.out.println("Error: el código debe ser un número entero.");
+                }
+            } while (!codigo.matches("\\d+"));
 
             // Verificar si el código ya existe en la lista
             if (buscarAsignaturaPorCodigo(codigo) != null) {
                 System.out.println("Error: este código ya está registrado en la aplicación.");
             } else {
-                // Si el código es único, solicitar el resto de los datos
-                System.out.println("Introduce el nombre de la asignatura: ");
-                String nombre = scanner.nextLine();
-                System.out.println("Introduce el profesor de la asignatura: ");
-                String profesor = scanner.nextLine();
+                String nombre;
+                do {
+                    System.out.println("Introduce el nombre de la asignatura: ");
+                    nombre = scanner.nextLine();
+                    if (nombre.trim().isEmpty()) {
+                        System.out.println("Error: el nombre no puede estar vacío.");
+                    }
+                } while (nombre.trim().isEmpty());
+
+                String profesor;
+                do {
+                    System.out.println("Introduce el profesor de la asignatura: ");
+                    profesor = scanner.nextLine();
+                    if (profesor.trim().isEmpty()) {
+                        System.out.println("Error: el nombre del profesor no puede estar vacío.");
+                    }
+                } while (profesor.trim().isEmpty());
 
                 Asignatura asignatura = new Asignatura(nombre, codigo, profesor);
                 asignaturas.agregar(asignatura);
@@ -525,28 +543,26 @@ public class GestionAsignaturas {
             return;
         }
 
-
         int maxTareas = 0;
         ListaEnlazada<Asignatura> asignaturasConMaxTareas = new ListaEnlazada<>();
-
 
         NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
         while (nodo != null) {
             Asignatura asignatura = nodo.getDato();
-            int numTareas = contarTareas(asignatura.getTareas());
+            ListaEnlazada<Tarea> listaDeTareas = asignatura.getTareas();
+            int numeroDeTareas = contarTareas(listaDeTareas);
 
             // Comparar con el máximo actual
-            if (numTareas > maxTareas) {
-                maxTareas = numTareas;
+            if (numeroDeTareas > maxTareas) {
+                maxTareas = numeroDeTareas;
                 asignaturasConMaxTareas = new ListaEnlazada<>();
                 asignaturasConMaxTareas.agregar(asignatura);
-            } else if (numTareas == maxTareas) {
+            } else if (numeroDeTareas == maxTareas) {
                 asignaturasConMaxTareas.agregar(asignatura);
             }
 
             nodo = nodo.getSiguiente();
         }
-
 
         System.out.println("\nASIGNATURAS CON EL MAYOR NÚMERO DE TAREAS");
         System.out.println("-----------------------------------------");
@@ -565,38 +581,43 @@ public class GestionAsignaturas {
         scanner.nextLine();
     }
 
-
     private int contarTareas(ListaEnlazada<Tarea> tareas) {
+        if (tareas == null || tareas.getCabeza() == null) {
+            return 0;
+        }
         int contador = 0;
         NodoLEG<Tarea> nodo = tareas.getCabeza();
         while (nodo != null) {
-            contador++;
+            Tarea tarea = nodo.getDato();
+            if (tarea != null && tarea.getNombre() != null && !tarea.getNombre().isEmpty() && tarea.getPuntuacion() >= 0) {
+                contador++;
+            }
             nodo = nodo.getSiguiente();
         }
         return contador;
     }
 
     private String obtenerDetalleTareas(ListaEnlazada<Tarea> tareas) {
-        int practicas = 0, parciales = 0, examenesFinales = 0;
+        int practicas = 0, parciales = 0;
 
         NodoLEG<Tarea> nodo = tareas.getCabeza();
         while (nodo != null) {
             Tarea tarea = nodo.getDato();
             switch (tarea.getTipo()) {
-                case "practica":
+                case "Practica":
                     practicas++;
                     break;
-                case "parcial":
+                case "Parcial":
                     parciales++;
                     break;
                 case "Examen Final":
-                    examenesFinales++;
+
                     break;
             }
             nodo = nodo.getSiguiente();
         }
 
-        return practicas + " prácticas, " + parciales + " examen parcial y " + examenesFinales + " examen final";
+        return practicas + " practicas, " + parciales + " parcial y " + " examen final: 1";
     }
 
     public void listarExamenesFinalesConMenorPuntuacion() {
