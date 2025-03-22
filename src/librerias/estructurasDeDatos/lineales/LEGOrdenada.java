@@ -1,13 +1,26 @@
 package librerias.estructurasDeDatos.lineales;
 
-
 import librerias.excepcionesDeUsuario.ListaEnlazada;
 
+/**
+ * Clase que implementa una Lista Enlazada Genérica Ordenada (LEGOrdenada).
+ *
+ * @param <T> el tipo de elementos que contendrá la lista, debe ser Comparable
+ */
 public class LEGOrdenada<T extends Comparable<T>> extends ListaEnlazada<T> {
+
+    /**
+     * Constructor que inicializa una lista ordenada vacía.
+     */
     public LEGOrdenada() {
         super();
     }
 
+    /**
+     * Agrega un elemento a la lista manteniendo el orden.
+     *
+     * @param dato el elemento a agregar
+     */
     @Override
     public void agregar(T dato) {
         NodoLEG<T> nuevoNodo = new NodoLEG<>(dato);

@@ -6,10 +6,19 @@ import librerias.estructurasDeDatos.lineales.NodoLEG;
 import java.io.*;
 import java.util.Scanner;
 
+
+/**
+ * Clase que gestiona las asignaturas y sus tareas.
+ */
+
 public class GestionAsignaturas {
     private ListaEnlazada<Asignatura> asignaturas;
     private Scanner scanner;
     private LEGOrdenada<Asignatura> asignaturasOrdenadasAscendente;
+
+    /**
+     * Constructor que inicializa la gestión de asignaturas.
+     */
 
     public GestionAsignaturas() {
         this.asignaturas = new ListaEnlazada<>();
@@ -18,6 +27,10 @@ public class GestionAsignaturas {
         cargarAsignaturas();
         cargarTareas();
     }
+
+    /**
+     * Guarda las asignaturas en un archivo.
+     */
 
     public void guardarAsignaturas() {
         String nombreFichero = "asignaturas.dat"; // Nombre fijo del fichero
@@ -33,6 +46,10 @@ public class GestionAsignaturas {
         }
     }
 
+
+    /**
+     * Carga las asignaturas desde un archivo.
+     */
     public void cargarAsignaturas() {
         String filePath = "asignaturas.dat"; // Ruta  del fichero
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
@@ -50,6 +67,10 @@ public class GestionAsignaturas {
             System.err.println("\tError al cargar las asignaturas: " + e.getMessage());
         }
     }
+
+    /**
+     * Guarda las tareas en un archivo.
+     */
 
     public void guardarTareas() {
         String nombreFichero = "tareas.dat"; // Nombre fijo del fichero
@@ -69,6 +90,10 @@ public class GestionAsignaturas {
             System.err.println("\tError al guardar las tareas: " + e.getMessage());
         }
     }
+
+    /**
+     * Carga las tareas desde un archivo.
+     */
 
     public void cargarTareas() {
         String filePath = "tareas.dat"; // Ruta del fichero
@@ -97,6 +122,10 @@ public class GestionAsignaturas {
             System.err.println("\tError al cargar las tareas: " + e.getMessage());
         }
     }
+
+    /**
+     * Da de alta una nueva asignatura.
+     */
 
     public void altaAsignatura() {
         boolean continuar = true;
@@ -131,6 +160,13 @@ public class GestionAsignaturas {
         }
     }
 
+    /**
+     * Busca una asignatura por su código.
+     *
+     * @param codigo el código de la asignatura a buscar
+     * @return la asignatura encontrada o null si no se encuentra
+     */
+
     public Asignatura buscarAsignaturaPorCodigo(String codigo) {
         if (codigo == null) {
             return null;
@@ -150,6 +186,10 @@ public class GestionAsignaturas {
 
         return null;
     }
+
+    /**
+     * Da de baja una asignatura.
+     */
 
     public void bajaAsignatura() {
         boolean continuar = true;
@@ -191,6 +231,12 @@ public class GestionAsignaturas {
         mostrarListaAsignaturas();
     }
 
+    /**
+     * Muestra los detalles de una asignatura.
+     *
+     * @param asignatura la asignatura cuyos detalles se mostrarán
+     */
+
     public void mostrarDetallesAsignatura(Asignatura asignatura) {
         System.out.println("\nASIGNATURA: " + asignatura.getNombre());
         System.out.println("Código: " + asignatura.getCodigo());
@@ -214,6 +260,10 @@ public class GestionAsignaturas {
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
 
+    /**
+     * Muestra la lista de asignaturas.
+     */
+
     public void mostrarListaAsignaturas() {
         NodoLEG<Asignatura> nodo = asignaturas.getCabeza();
         while (nodo != null) {
@@ -221,6 +271,10 @@ public class GestionAsignaturas {
             nodo = nodo.getSiguiente();
         }
     }
+
+    /**
+     * Modifica los datos de una asignatura.
+     */
 
     public void modificacionAsignaturas() {
         boolean continuar = true;
@@ -291,6 +345,9 @@ public class GestionAsignaturas {
         }
     }
 
+    /**
+     * Ordena la lista de asignaturas por código en orden ascendente.
+     */
     public void ordenarListaPorCodigo() {
         if (asignaturas.getCabeza() == null) return;
 
@@ -316,6 +373,11 @@ public class GestionAsignaturas {
         }
     }
 
+
+    /**
+     * Lista las asignaturas por código en orden ascendente.
+     */
+
     public void listarAsignaturasPorCodigoAscendente() {
         ordenarListaPorCodigo();
 
@@ -338,6 +400,10 @@ public class GestionAsignaturas {
         System.out.println("\t...... Pulse <Intro> para continuar...");
         scanner.nextLine();
     }
+
+    /**
+     * Ordena la lista de asignaturas por código en orden descendente.
+     */
 
     public void ordenarListaPorCodigoDescendente() {
         if (asignaturas.getCabeza() == null) return;
@@ -362,6 +428,10 @@ public class GestionAsignaturas {
         } while (swapped);
     }
 
+    /**
+     * Lista las asignaturas por código en orden descendente.
+     */
+
     public void listarAsignaturasPorCodigoDescendente() {
         ordenarListaPorCodigoDescendente();
 
@@ -384,6 +454,10 @@ public class GestionAsignaturas {
         System.out.println("\t...... Pulse <Intro> para continuar...");
         scanner.nextLine();
     }
+
+    /**
+     * Lista los datos completos de una asignatura.
+     */
 
     public void listarDatosCompletosAsignatura() {
         boolean continuar = true;
@@ -428,6 +502,9 @@ public class GestionAsignaturas {
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
 
+    /**
+     * Agrega tareas a una asignatura.
+     */
     public void agregarTareasAAsignatura() {
         boolean continuar = true;
 
@@ -455,6 +532,10 @@ public class GestionAsignaturas {
             }
         }
     }
+
+    /**
+     * Lista todas las tareas de las asignaturas.
+     */
 
     public void listarCompletoTareas() {
         ordenarListaPorCodigo(); // Ordenar la lista de asignaturas por código en orden ascendente
@@ -491,7 +572,9 @@ public class GestionAsignaturas {
         scanner.nextLine();
     }
 
-
+    /**
+     * Lista las tareas de las asignaturas de forma resumida.
+     */
     public void listarResumidoTareas() {
         ordenarListaPorCodigo(); // Ordenar la lista de asignaturas por código en orden ascendente
 
@@ -527,6 +610,9 @@ public class GestionAsignaturas {
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
 
+    /**
+     * Genera un informe resumido de las puntuaciones de las tareas de las asignaturas.
+     */
     public void informePuntuacionesResumido() {
         ordenarListaPorCodigo(); // Ordenar la lista de asignaturas por código en orden ascendente
 
@@ -570,6 +656,9 @@ public class GestionAsignaturas {
         scanner.nextLine(); // Esperar a que el usuario pulse Intro
     }
 
+    /**
+     * Lista las asignaturas con el mayor número de tareas.
+     */
     public void listarAsignaturasConMayorNumeroTareas() {
         ordenarListaPorCodigo(); // Ordenar la lista de asignaturas por código en orden ascendente
 
@@ -618,6 +707,12 @@ public class GestionAsignaturas {
         scanner.nextLine();
     }
 
+    /**
+     * Cuenta el número de tareas en una lista de tareas.
+     *
+     * @param tareas la lista de tareas
+     * @return el número de tareas
+     */
     private int contarTareas(ListaEnlazada<Tarea> tareas) {
         int contador = 0;
         NodoLEG<Tarea> nodo = tareas.getCabeza();
@@ -628,6 +723,12 @@ public class GestionAsignaturas {
         return contador;
     }
 
+    /**
+     * Obtiene un detalle de las tareas en una lista de tareas.
+     *
+     * @param tareas la lista de tareas
+     * @return una cadena con el detalle de las tareas
+     */
     private String obtenerDetalleTareas(ListaEnlazada<Tarea> tareas) {
         int practicas = 0, parciales = 0, examenesFinales = 0;
 
@@ -651,6 +752,9 @@ public class GestionAsignaturas {
         return practicas + " Practicas, " + parciales + " Parciales y " + examenesFinales + " exámenes finales";
     }
 
+    /**
+     * Lista las asignaturas con la menor puntuación en el examen final.
+     */
     public void listarExamenesFinalesConMenorPuntuacion() {
         if (asignaturas.getCabeza() == null) {
             System.out.println("\tNo hay asignaturas registradas.");
@@ -706,6 +810,12 @@ public class GestionAsignaturas {
         scanner.nextLine();
     }
 
+    /**
+     * Obtiene la puntuación del examen final de una lista de tareas.
+     *
+     * @param tareas la lista de tareas
+     * @return la puntuación del examen final o -1 si no hay examen final
+     */
     private double obtenerPuntuacionExamenFinal(ListaEnlazada<Tarea> tareas) {
         NodoLEG<Tarea> nodo = tareas.getCabeza();
         while (nodo != null) {
@@ -717,5 +827,6 @@ public class GestionAsignaturas {
         }
         return -1;
     }
+
 
 }
