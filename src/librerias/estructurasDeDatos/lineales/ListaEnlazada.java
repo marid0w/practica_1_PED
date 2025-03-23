@@ -1,15 +1,14 @@
-package librerias.excepcionesDeUsuario;
-
-import librerias.estructurasDeDatos.lineales.NodoLEG;
+package librerias.estructurasDeDatos.lineales;
 
 import java.io.Serializable;
+import librerias.estructurasDeDatos.modelos.LE;
 
 /**
  * Clase que representa una lista enlazada genérica.
  *
  * @param <T> el tipo de elementos que contendrá la lista
  */
-public class ListaEnlazada<T> implements Serializable {
+public class ListaEnlazada<T> implements LE<T>, Serializable {
     private NodoLEG<T> cabeza;
 
     /**
@@ -24,6 +23,7 @@ public class ListaEnlazada<T> implements Serializable {
      *
      * @param dato el dato a agregar
      */
+    @Override
     public void agregar(T dato) {
         NodoLEG<T> nuevoNodo = new NodoLEG<>(dato);
         if (cabeza == null) {
@@ -38,23 +38,14 @@ public class ListaEnlazada<T> implements Serializable {
     }
 
     /**
-     * Obtiene la cabeza de la lista.
-     *
-     * @return la cabeza de la lista
-     */
-    public NodoLEG<T> getCabeza() {
-        return cabeza;
-    }
-
-    /**
      * Elimina un elemento de la lista.
      *
      * @param dato el dato a eliminar
-     * @return true si el elemento fue eliminado, false en caso contrario
      */
-    public boolean eliminar(T dato) {
-        if (dato == null) return false;
-        if (cabeza == null) return false;
+    @Override
+    public void eliminar(T dato) {
+        if (dato == null) return;
+        if (cabeza == null) return;
 
         NodoLEG<T> actual = cabeza, anterior = null;
 
@@ -63,15 +54,50 @@ public class ListaEnlazada<T> implements Serializable {
             actual = actual.getSiguiente();
         }
 
-        if (actual == null) return false;
+        if (actual == null) return;
 
         if (anterior == null) {
             cabeza = actual.getSiguiente();
         } else {
             anterior.setSiguiente(actual.getSiguiente());
         }
+    }
 
-        return true;
+    /**
+     * Busca un elemento en la lista.
+     *
+     * @param dato el dato a buscar
+     * @return true si el elemento está en la lista, false en caso contrario
+     */
+    @Override
+    public boolean buscar(T dato) {
+        NodoLEG<T> actual = cabeza;
+        while (actual != null) {
+            if (actual.getDato().equals(dato)) {
+                return true;
+            }
+            actual = actual.getSiguiente();
+        }
+        return false;
+    }
+
+    /**
+     * Verifica si la lista está vacía.
+     *
+     * @return true si la lista está vacía, false en caso contrario
+     */
+    @Override
+    public boolean estaVacia() {
+        return cabeza == null;
+    }
+
+    /**
+     * Obtiene la cabeza de la lista.
+     *
+     * @return la cabeza de la lista
+     */
+    public NodoLEG<T> getCabeza() {
+        return cabeza;
     }
 
     /**

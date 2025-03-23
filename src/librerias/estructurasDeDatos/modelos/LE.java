@@ -21,25 +21,4 @@ public interface LE<T> {
      */
     void eliminar(T elemento);
 
-    /**
-     * Busca un elemento en la lista.
-     *
-     * @param elemento el elemento a buscar
-     * @return true si el elemento está en la lista, false en caso contrario
-     */
-    boolean buscar(T elemento);
-
-    /**
-     * Verifica si la lista está vacía.
-     *
-     * @return true si la lista está vacía, false en caso contrario
-     */
-    boolean estaVacia();
-
-    /**
-     * Devuelve el número de elementos en la lista.
-     *
-     * @return el tamaño de la lista
-     */
-    int tamaño();
 }

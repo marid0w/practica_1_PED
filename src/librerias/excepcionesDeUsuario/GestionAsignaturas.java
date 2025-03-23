@@ -1,6 +1,7 @@
 package librerias.excepcionesDeUsuario;
 
 import librerias.estructurasDeDatos.lineales.LEGOrdenada;
+import librerias.estructurasDeDatos.lineales.ListaEnlazada;
 import librerias.estructurasDeDatos.lineales.NodoLEG;
 
 import java.io.*;
@@ -51,7 +52,7 @@ public class GestionAsignaturas {
      * Carga las asignaturas desde un archivo.
      */
     public void cargarAsignaturas() {
-        String filePath = "asignaturas.dat"; // Ruta  del fichero
+        String filePath = "asignaturas.dat"; // Ruta del fichero
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
             asignaturas = new ListaEnlazada<>();
             while (true) {
@@ -540,7 +541,7 @@ public class GestionAsignaturas {
     public void listarCompletoTareas() {
         ordenarListaPorCodigo(); // Ordenar la lista de asignaturas por código en orden ascendente
 
-        System.out.println("\n\t\t\t\tLISTADO DE TAREAS");
+        System.out.println("\n\t\t\t\t\t\t\t\tLISTADO DE TAREAS");
         System.out.println();
         System.out.println("\tCódigo      Asignatura                     Tareas                 Puntuación");
         System.out.println("\t----------------------------------------------------------------------------------");

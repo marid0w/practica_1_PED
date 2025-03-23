@@ -1,5 +1,6 @@
 package librerias.excepcionesDeUsuario;
 
+import librerias.estructurasDeDatos.lineales.ListaEnlazada;
 import librerias.estructurasDeDatos.lineales.NodoLEG;
 
 import java.io.Serializable;
