@@ -737,10 +737,10 @@ public class GestionAsignaturas {
         while (nodo != null) {
             Tarea tarea = nodo.getDato();
             switch (tarea.getTipo().toLowerCase()) {
-                case "Practica":
+                case "practica":
                     practicas++;
                     break;
-                case "Parcial":
+                case "parcial":
                     parciales++;
                     break;
                 case "examen final":
@@ -750,7 +750,7 @@ public class GestionAsignaturas {
             nodo = nodo.getSiguiente();
         }
 
-        return practicas + " Practicas, " + parciales + " Parciales y " + examenesFinales + " exámenes finales";
+        return practicas + " Practicas, " + parciales + " Parciales y " + examenesFinales + " examenes finales";
     }
 
     /**

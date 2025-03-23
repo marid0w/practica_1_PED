@@ -63,33 +63,7 @@ public class ListaEnlazada<T> implements LE<T>, Serializable {
         }
     }
 
-    /**
-     * Busca un elemento en la lista.
-     *
-     * @param dato el dato a buscar
-     * @return true si el elemento está en la lista, false en caso contrario
-     */
-    @Override
-    public boolean buscar(T dato) {
-        NodoLEG<T> actual = cabeza;
-        while (actual != null) {
-            if (actual.getDato().equals(dato)) {
-                return true;
-            }
-            actual = actual.getSiguiente();
-        }
-        return false;
-    }
 
-    /**
-     * Verifica si la lista está vacía.
-     *
-     * @return true si la lista está vacía, false en caso contrario
-     */
-    @Override
-    public boolean estaVacia() {
-        return cabeza == null;
-    }
 
     /**
      * Obtiene la cabeza de la lista.
